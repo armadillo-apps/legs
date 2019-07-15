@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getAptList } = require("../ctrls/apt.ctrl");
+const { getAptList } = require("../controllers/apt.controller");
 
 router.use("/", async (err, req, res, next) => {
   if (!err.statusCode) {
