@@ -1,7 +1,7 @@
 # LEGS(ARMS back-end)
 
-[![Test Coverage](https://api.codeclimate.com/v1/badges/cf49a917ac55cc1c04ef/test_coverage)](https://codeclimate.com/github/armadillo-apps/legs/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/cf49a917ac55cc1c04ef/maintainability)](https://codeclimate.com/github/armadillo-apps/legs/maintainability)
+![Code Climate coverage](https://img.shields.io/codeclimate/coverage/armadillo-apps/legs.svg)
+![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/armadillo-apps/legs.svg)
 
 
 
