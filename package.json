@@ -7,12 +7,11 @@
     "start": "node server.js",
     "start:dev": "nodemon server.js",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "start:react": "react-scripts start",
-    "build:react": "react-scripts build",
-    "test:react": "react-scripts test",
-    "eject:react": "react-scripts eject"
+    "test:watch": "jest --watch"
   },
+"jest": {
+  "preset": "@shelf/jest-mongodb"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/armadillo-apps/legs.git"
