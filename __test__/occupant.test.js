@@ -36,7 +36,7 @@ describe("occupant", () => {
     expect(response.text).toEqual("Hello World");
   });
 
-  xit("GET / should return Hello world", async () => {
+  xit("GET / should return route is working", async () => {
     const response = await request(app).get("/occupant");
     expect(response.body).toEqual("Occupant route is working");
   });

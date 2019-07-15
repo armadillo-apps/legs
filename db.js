@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dbUrl = global.__MONGO_URI__ || "mongodb://localhost:27017/occupant";
+const dbURI = global.__MONGO_URI__ || "mongodb://localhost:27017/occupant";
 console.log(global.__MONGO_URI__);
 
 mongoose.connect(dbURI, { useNewUrlParser: true });
