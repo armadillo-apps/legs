@@ -8,6 +8,7 @@
     "start:dev": "nodemon ./src/server.js",
     "test": "jest __test__",
     "test:watch": "jest --watch __test__",
+    "test:coverage": "jest --coverage __test__",
     "cy:open": "cypress open",
     "cy:verify": "cypress verify",
     "cy:run": "cypress run"
