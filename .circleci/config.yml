@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  unitTest:
     docker:
       - image: circleci/node:12.6.0
     steps:
@@ -18,7 +18,27 @@ jobs:
       - run: 
           name: Run unit tests
           command: npm run test
-  deploy:
+  deployTest:
+      docker:
+        - image: circleci/node:12.6.0
+      environment:
+        HEROKU_APP_NAME: test-armadillo-legs
+      steps:
+        - checkout
+        - run:
+            name: Deploy to test backend on Heroku
+            command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master 
+  deployDemo:
+      docker:
+        - image: circleci/node:12.6.0
+      environment:
+        HEROKU_APP_NAME: demo-armadillo-legs
+      steps:
+        - checkout
+        - run:
+            name: Deploy to demo backend on Heroku
+            command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master 
+  deployProd:
       docker:
         - image: circleci/node:12.6.0
       environment:
@@ -26,13 +46,42 @@ jobs:
       steps:
         - checkout
         - run:
-            name: Deploy to Heroku
-            command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master  
+            name: Deploy to production backend on Heroku
+            command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master 
+  uiTest:
+    docker:
+      - image: cypress/base:10
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "package.json" }}
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run: npm run cy:verify
+      - save_cache:
+          key: cache-{{ checksum "package.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run:
+          command: npm run cy:run
 workflows:
   version: 2
-  test_and_deploy:
+  testAndDeploy:
     jobs:
-      - test
-      - deploy:
+      - unitTest
+      - deployTest:
           requires:
-            - test
+            - unitTest
+      - uiTest:
+          requires:
+            - deployTest
+      - deployDemo:
+          requires:
+            - uiTest
+      - deployProd:
+          type: approval
+          requires:
+            - deployDemo
