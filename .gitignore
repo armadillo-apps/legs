@@ -2,3 +2,7 @@ node_modules/
 .eslintrc.json
 src/.env
 *.mp4
+
+# Ignore test-related files
+/coverage.data
+/coverage/
