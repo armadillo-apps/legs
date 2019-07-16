@@ -101,6 +101,5 @@ workflows:
           requires:
             - uiTest
       - deployProd:
-          type: approval
           requires:
             - deployDemo
