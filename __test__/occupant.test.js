@@ -13,7 +13,7 @@ describe("occupant", () => {
   ];
 
   beforeAll(async () => {
-    const mongoURI = global.__MONGO_URI__;
+    const mongoURI = process.env.MONGODB_URI || global.__MONGO_URI__;
     connection = await MongoClient.connect(mongoURI, {
       useNewUrlParser: true
     });
