@@ -8,4 +8,9 @@ const getApartmentList = async () => {
   return await ApartmentModel.find({});
 };
 
-module.exports = { getApartmentList };
+const addApartment = async input => {
+  const newApartment = new ApartmentModel(input);
+  return await newApartment.save();
+};
+
+module.exports = { getApartmentList, addApartment };
