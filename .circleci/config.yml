@@ -23,6 +23,16 @@ jobs:
       - image: circleci/node:12.6.0-browsers
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+      - run: 
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
       - run:
           name: "Run Jest and collect coverage Reports"
           command: npm run test:coverage
