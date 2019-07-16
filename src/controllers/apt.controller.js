@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require("../../db");
+require("../utils/db");
 require("../models/apt.model");
 
 const AptModel = mongoose.model("Apt");

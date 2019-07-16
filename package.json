@@ -10,9 +10,9 @@
     "test:watch": "jest --watch ./__test__",
     "cy:open": "cypress open"
   },
-"jest": {
-  "preset": "@shelf/jest-mongodb"
-},
+  "jest": {
+    "preset": "@shelf/jest-mongodb"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/armadillo-apps/legs.git"
