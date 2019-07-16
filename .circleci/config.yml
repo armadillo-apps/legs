@@ -19,27 +19,15 @@ jobs:
           name: Run unit tests
           command: npm run test
   testCoverage:
-    environment:
-      CC_TEST_REPORTER_ID: 0788d04c07ccd9921aabc738a35a395c992940c7ad0e5617d4549b67ebec14f8
     docker:
-      - image: circleci/php:7.1.9-browsers
-    working_directory: ~/repo
+      - image: circleci/node:12.6.0-browsers
     steps:
       - checkout
       - run:
-          name: Setup dependencies
-          command: |
-            sudo composer self-update
-            composer install -n --prefer-dist
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - run:
-          name: Run tests
-          command: |
-            sudo docker-php-ext-enable xdebug
+          name: "Run Jest and collect coverage Reports"
+          command: npm run test:coverage
+      - store_artifacts:
+          path: coverage
 
   deployTest:
       docker:
