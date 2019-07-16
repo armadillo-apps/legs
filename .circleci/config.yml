@@ -28,9 +28,7 @@ jobs:
         - run:
             name: Deploy to test backend on Heroku
             command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-        - run:
-            name: Wait for deployment to complete
-            command: sleep(20)
+        - run: sleep 20
         - run:
             name: Ping test deployment
             command: curl --fail https://HEROKU_APP_NAME.herokuapp.com/
@@ -45,9 +43,7 @@ jobs:
         - run:
             name: Deploy to demo backend on Heroku
             command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master 
-        - run:
-            name: Wait for deployment to complete
-            command: sleep(20)
+        - run: sleep 20
         - run:
             name: Ping demo deployment
             command: curl --fail https://HEROKU_APP_NAME.herokuapp.com/
@@ -61,9 +57,7 @@ jobs:
         - run:
             name: Deploy to production backend on Heroku
             command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-        - run:
-            name: Wait for deployment to complete
-            command: sleep(20)
+        - run: sleep 20
         - run:
             name: Ping production deployment
             command: curl --fail https://HEROKU_APP_NAME.herokuapp.com/
