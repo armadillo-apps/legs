@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const aptSchema = new mongoose.Schema({
-  buildingName: { type: String, required: true },
-  buildingAddress: { type: String, required: true, unique: true },
-  numBedrooms: { type: Number },
+const apartmentSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  address: { type: String, required: true, unique: true },
+  bedrooms: { type: Number },
   capacity: { type: Number, required: true },
   leases: [
     {
@@ -14,4 +14,4 @@ const aptSchema = new mongoose.Schema({
   ]
 });
 
-mongoose.model("Apt", aptSchema);
+mongoose.model("Apartment", apartmentSchema);

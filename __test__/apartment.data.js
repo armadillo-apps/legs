@@ -1,8 +1,8 @@
 module.exports = [
   {
-    buildingName: "China Square Central",
-    buildingAddress: "18 Cross Street #01-01",
-    numBedrooms: 1,
+    name: "China Square Central 01-01",
+    address: "18 Cross Street #01-01",
+    bedrooms: 1,
     capacity: 1,
     leases: [
       {
@@ -13,9 +13,9 @@ module.exports = [
     ]
   },
   {
-    buildingName: "Parc Sophia",
-    buildingAddress: "10 Adis Road #05-10",
-    numBedrooms: 2,
+    name: "Parc Sophia Unit 05-10",
+    address: "10 Adis Road #05-10",
+    bedrooms: 2,
     capacity: 2,
     leases: [
       {

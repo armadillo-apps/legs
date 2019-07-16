@@ -2,7 +2,7 @@ const app = require("../src/app");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
 const request = require("supertest");
-const aptTestData = require("./aptData");
+const apartmentTestData = require("./apartment.data");
 
 describe("apartment CRUD tests", () => {
   let connection;
@@ -29,9 +29,9 @@ describe("apartment CRUD tests", () => {
 
   describe("routes/apts", () => {
     it("should return list of apartments", async () => {
-      const aptDbInstance = db.collection("apts");
-      await aptDbInstance.insertMany(aptTestData);
-      const response = await request(app).get("/apts");
+      const apartmentDbInstance = db.collection("apartments");
+      await apartmentDbInstance.insertMany(apartmentTestData);
+      const response = await request(app).get("/apartments");
       expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
       expect(response.body.length).toEqual(2);
