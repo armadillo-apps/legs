@@ -7,10 +7,16 @@
 
 ## Getting started
 
-To start development
+To start server
 
 ```
 npm start
+```
+
+To start server in development mode
+
+```
+npm run start:dev
 ```
 
 To run the tests
