@@ -31,7 +31,11 @@ describe("apartment CRUD tests", () => {
     it("should return list of apartments", async () => {
       const apartmentDbInstance = db.collection("apartments");
       await apartmentDbInstance.insertMany(apartmentTestData);
-      const response = await request(app).get("/apartments");
+
+
+      const response = await request(app)
+        .get("/apartments");
+
       expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
       expect(response.body.length).toEqual(2);
@@ -42,10 +46,12 @@ describe("apartment CRUD tests", () => {
       const response = await request(app)
         .post("/apartments")
         .send(newApartment);
+
       const apartmentDbInstance = db.collection("apartments");
       const addedApartment = await apartmentDbInstance.findOne({
         name: "China Square Central 01-01"
       });
+
       expect(response.status).toEqual(201);
       expect(response.body.name).toEqual("China Square Central 01-01");
       expect(addedApartment.name).toEqual("China Square Central 01-01");
