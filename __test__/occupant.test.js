@@ -7,21 +7,23 @@ describe("occupant", () => {
   let connection;
   let db;
 
+  let mockOccupants = [
+    { name: "Tom", employeeId: "1234567a", remarks: "might extend stay" },
+    { name: "Tim", employeeId: "1234567b" }
+  ];
+
   beforeAll(async () => {
     const mongoURI = global.__MONGO_URI__;
-    // console.log("mongoURI", mongoURI);
     connection = await MongoClient.connect(mongoURI, {
       useNewUrlParser: true
     });
 
     const uriArray = mongoURI.split("/");
     const dbName = uriArray[uriArray.length - 1];
-    // console.log("dbName", dbName);
     db = await connection.db(dbName);
   });
 
   afterAll(async () => {
-    // await mongoose.disconnect();
     await connection.close();
     await db.close();
   });
@@ -30,14 +32,23 @@ describe("occupant", () => {
     await db.dropDatabase();
   });
 
-  it("GET / should return Hello world", async () => {
-    console.log("db", db);
-    const response = await request(app).get("/");
-    expect(response.text).toEqual("Hello World");
-  });
+  describe("/occupants", () => {
+    it("GET / should return list of current occupants", async () => {
+      const mockDb = db.collection("occupants");
+      await mockDb.insertMany(mockOccupants);
+      const response = await request(app).get("/occupants");
+      expect(response.status).toEqual(200);
+      expect(Array.isArray(response.body)).toEqual(true);
+      expect(response.body[0].name).toEqual("Tom");
+    });
 
-  xit("GET / should return route is working", async () => {
-    const response = await request(app).get("/occupant");
-    expect(response.body).toEqual("Occupant route is working");
+    it("POST should create a new occupant", async () => {
+        const response = await request(app).post("/occupants").send(mockOccupants[1]);
+        const mockDb = db.collection("occupants");
+        const foundOccupant = await mockDb.findOne({employeeId: "1234567b"})
+        expect(response.status).toEqual(200);
+        expect(foundOccupant.name).toEqual("Tim");
+        expect(response.text).toEqual('Successfully added new occupant: "Tim"');
+    });
   });
 });
