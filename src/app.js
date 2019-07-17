@@ -9,7 +9,9 @@ const cors = require("cors");
 
 const corsOptions = {
   origin: [
-    "armadillo-arms.netlify.com",
+    "https://dashboard.heroku.com/apps/armadilo-arms",
+    "https://dashboard.heroku.com/apps/test-armadilo-arms",
+    "https://demo-armadillo-arms.herokuapp.com/",
     "https://demo-armadillo-legs.herokuapp.com/",
     "https://test-armadillo-legs.herokuapp.com/",
     "https://armadillo-legs.herokuapp.com/",
