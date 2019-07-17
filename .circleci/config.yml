@@ -106,7 +106,6 @@ workflows:
   testAndDeploy:
     jobs:
       - unitTest
-      - testCoverage
       - deployTest:
           requires:
             - unitTest
