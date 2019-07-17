@@ -10,7 +10,13 @@ module.exports = [
         leaseEnd: new Date("2019-01-01"),
         monthlyRent: 5000
       }
-    ]
+    ],
+    landlord: {
+      name: "Jesstern",
+      accountNumber: "123ACF802",
+      mobile: 90001000,
+      email: "jess@thoughtworks.com"
+    }
   },
   {
     name: "Parc Sophia Unit 05-10",
@@ -23,6 +29,12 @@ module.exports = [
         leaseEnd: new Date("2018-10-01"),
         monthlyRent: 6000
       }
-    ]
+    ],
+    landlord: {
+      name: "Elson",
+      accountNumber: "555ABC666",
+      mobile: 91112222,
+      email: "elson@thoughtworks.com"
+    }
   }
 ];

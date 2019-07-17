@@ -11,7 +11,13 @@ const apartmentSchema = new mongoose.Schema({
       leaseEnd: { type: Date, required: true },
       monthlyRent: { type: Number, required: true }
     }
-  ]
+  ],
+  landlord: {
+    name: { type: String, required: true },
+    accountNumber: { type: String, required: true },
+    mobile: { type: Number },
+    email: { type: String }
+  }
 });
 
 mongoose.model("Apartment", apartmentSchema);
