@@ -21,7 +21,7 @@ const corsOptions = {
   preflightContinue: false,
   optionsSuccessStatus: 204
 };
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
