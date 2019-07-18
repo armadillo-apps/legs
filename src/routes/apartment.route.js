@@ -1,11 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const {
   getApartmentList,
   addApartment
-} = require("../controllers/apartment.controller");
+} = require('../controllers/apartment.controller');
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const output = await getApartmentList();
     res.status(200).json(output);
@@ -14,10 +14,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const output = await addApartment(req.body);
-    res.status(201).json(output);
+    res.status(201).send('apartment sucessfully created');
   } catch (err) {
     next(err);
   }

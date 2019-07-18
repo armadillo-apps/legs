@@ -48,13 +48,9 @@ describe("apartment CRUD tests", () => {
         .send(newApartment);
 
       const apartmentDbInstance = db.collection("apartments");
-      const addedApartment = await apartmentDbInstance.findOne({
-        name: "China Square Central 01-01"
-      });
 
       expect(response.status).toEqual(201);
-      expect(response.body.name).toEqual("China Square Central 01-01");
-      expect(addedApartment.name).toEqual("China Square Central 01-01");
+
     });
   });
 });
