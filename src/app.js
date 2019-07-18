@@ -14,9 +14,7 @@ const corsOptions = {
     "https://demo-armadillo-arms.herokuapp.com/",
     "https://demo-armadillo-legs.herokuapp.com/",
     "https://test-armadillo-legs.herokuapp.com/",
-    "https://armadillo-legs.herokuapp.com/",
-    "http://localhost:3000",
-    "http://localhost:3005"
+    "https://armadillo-legs.herokuapp.com/"
   ],
   preflightContinue: false,
   optionsSuccessStatus: 204
