@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./src/server.js",
     "start:dev": "nodemon ./src/server.js",
+    "start:db": "mongod --dbpath ~/data/db",
     "test": "jest __test__",
     "test:watch": "jest --watch __test__",
     "test:coverage": "jest --coverage __test__",
