@@ -57,7 +57,7 @@ describe("occupant", () => {
         const mockDb = db.collection("occupants");
         const foundOccupant = await mockDb.findOne({employeeId: "1234567b"})
         
-        expect(response.status).toEqual(200);
+        expect(response.status).toEqual(201);
         expect(foundOccupant.name).toEqual("Tim");
         expect(response.text).toEqual('Successfully added new occupant: "Tim"');
     });
