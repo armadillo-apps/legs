@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 const request = require("supertest");
 const apartmentTestData = require("./apartment.data");
 
-describe("apartment CRUD tests", () => {
+xdescribe("apartment CRUD tests", () => {
   let connection;
   let db;
 
