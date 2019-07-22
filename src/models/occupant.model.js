@@ -6,6 +6,6 @@ const occupantSchema = mongoose.Schema({
   remarks: { type: String }
 });
 
-const OccupantModel = mongoose.model("Occupant", occupantSchema);
+const OccupantModel = mongoose.model("occupant", occupantSchema);
 
 module.exports = OccupantModel;
