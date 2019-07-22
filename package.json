@@ -7,9 +7,9 @@
     "start": "node ./src/server.js",
     "start:dev": "nodemon ./src/server.js",
     "start:db": "mongod --dbpath ~/data/db",
-    "test": "jest __test__",
-    "test:watch": "jest --watch __test__",
-    "test:coverage": "jest --coverage __test__",
+    "test": "jest --runInBand __test__",
+    "test:watch": "jest --runInBand --watch __test__",
+    "test:coverage": "jest --runInBand --coverage __test__",
     "cy:open": "cypress open",
     "cy:verify": "cypress verify",
     "cy:run": "cypress run"

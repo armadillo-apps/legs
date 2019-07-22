@@ -15,11 +15,9 @@ router.get("/apartments/:apartmentId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const createdStay = await addStay(req.body);
+    await addStay(req.body);
     const foundApartment = await getApartmentName(req.body.apartmentId);
     const foundOccupant = await getOccupantName(req.body.occupantId);
-    console.log("foundApt", foundApartment)
-    console.log("foundOcc", foundOccupant)
     return res
       .status(201)
       .send(`Successfully assigned ${foundOccupant} to ${foundApartment}`);

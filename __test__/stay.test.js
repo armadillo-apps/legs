@@ -22,8 +22,9 @@ describe("stay READ and CREATE tests", () => {
     await connection.close();
   });
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     await db.dropDatabase();
+    setTimeout(done, 1000);
   });
 
   let mockApartments = [
@@ -95,9 +96,6 @@ describe("stay READ and CREATE tests", () => {
 
     const mockOccupantDb = db.collection("occupants");
     await mockOccupantDb.insertMany(mockOccupants);
-
-    // const mockStayDb = db.collection("stays");
-    // await mockStayDb.insertMany(mockStays);
 
     const response = await request(app)
       .post("/stays")
