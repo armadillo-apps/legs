@@ -1,4 +1,4 @@
-module.exports = [
+module.exports.mockApartments =  [
   {
     name: "China Square Central 01-01",
     address: "18 Cross Street #01-01",
@@ -37,4 +37,9 @@ module.exports = [
       email: "elson@thoughtworks.com"
     }
   }
+];
+
+module.exports.mockOccupants = [
+  { name: "Tom", employeeId: "1234567a", remarks: "might extend stay" },
+  { name: "Tim", employeeId: "1234567b" }
 ];
