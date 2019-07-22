@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const dbURI =
   process.env.MONGODB_URI ||
-  global.__MONGO_URI__ ||
-  "mongodb://localhost:27017/occupant";
-console.log(global.__MONGO_URI__);
+  global.__MONGO_URI__;
+console.log(dbURI);
 
-mongoose.connect(dbURI, { useNewUrlParser: true });
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
+mongoose.connect(dbURI, {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+});
 
 const db = mongoose.connection;
 
