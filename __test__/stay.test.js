@@ -8,28 +8,28 @@ describe("stay READ and CREATE tests", () => {
   let db;
 
   beforeAll(async () => {
-    const mongoURI = global.__MONGO_URI__;
-    connection = await MongoClient.connect(mongoURI, {
+    const dbParams = global.__MONGO_URI__.split("/");
+    const dbName = dbParams[dbParams.length - 1];
+    connection = await MongoClient.connect(global.__MONGO_URI__, {
       useNewUrlParser: true
     });
-    const uriArray = mongoURI.split("/");
-    const dbName = uriArray[uriArray.length - 1];
     db = await connection.db(dbName);
   });
 
   afterAll(async () => {
     await mongoose.disconnect();
     await connection.close();
+    await db.close();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async done => {
     await db.dropDatabase();
-    setTimeout(done, 1000);
+    setTimeout(done, 0);
   });
 
   let mockApartments = [
     {
-      _id: "5d303529e51a310017aa063c",
+      _id: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
       name: "China Square Central 01-01",
       address: "18 Cross Street #01-01",
       bedrooms: 1,
@@ -71,7 +71,7 @@ describe("stay READ and CREATE tests", () => {
     {
       name: "Tom",
       employeeId: "a009091a",
-      _id: "5d2ef34111ead80017be83df",
+      _id: mongoose.Types.ObjectId("5d2ef34111ead80017be83df"),
       remarks: "might extend stay"
     }
   ];
@@ -90,7 +90,7 @@ describe("stay READ and CREATE tests", () => {
     expect(response.body[0].occupantId).toEqual("5d2ef34111ead80017be83df");
   });
 
-  xit("should add an occupant's stay to an apartment", async () => {
+  it("should add an occupant's stay to an apartment", async () => {
     const mockApartmentDb = db.collection("apartments");
     await mockApartmentDb.insertMany(mockApartments);
 
@@ -100,15 +100,14 @@ describe("stay READ and CREATE tests", () => {
     const response = await request(app)
       .post("/stays")
       .send({
-        apartmentId: "5d303529e51a310017aa063c",
-        occupantId: "5d2ef34111ead80017be83df",
+        apartmentId: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
+        occupantId: mongoose.Types.ObjectId("5d2ef34111ead80017be83df"),
         checkInDate: new Date("2020-10-01"),
         checkOutDate: new Date("2021-10-01"),
         leaseId: "e83724nht8"
       });
-    console.log("response.text:", response.text);
     expect(response.status).toEqual(201);
-    expect(response.body).toEqual(
+    expect(response.text).toEqual(
       "Successfully assigned Tom to China Square Central 01-01"
     );
   });
