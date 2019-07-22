@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const occupantRouter = require("./routes/occupant.route");
 const apartmentRouter = require("./routes/apartment.route");
+const stayRouter = require("./routes/stay.route");
 const cors = require("cors");
 
 const corsOptions = {
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 
 app.use("/occupants", occupantRouter);
 app.use("/apartments", apartmentRouter);
+app.use("/stays", stayRouter);
 
 app.use((err, req, res, next) => {
   if (!err.statusCode) {

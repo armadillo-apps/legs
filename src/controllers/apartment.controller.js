@@ -10,4 +10,9 @@ const addApartment = async input => {
   return await newApartment.save();
 };
 
-module.exports = { getApartmentList, addApartment };
+const getApartmentName = async input => {
+  const foundApartment = await ApartmentModel.findById(input)
+  return foundApartment.name;
+}
+
+module.exports = { getApartmentList, addApartment, getApartmentName };
