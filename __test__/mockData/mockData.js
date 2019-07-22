@@ -1,5 +1,8 @@
-module.exports.mockApartments =  [
+const mongoose = require("mongoose");
+
+module.exports.mockApartments = [
   {
+    _id: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
     name: "China Square Central 01-01",
     address: "18 Cross Street #01-01",
     bedrooms: 1,
@@ -39,7 +42,32 @@ module.exports.mockApartments =  [
   }
 ];
 
+module.exports.mockStays = [
+  {
+    apartmentId: "5d303529e51a310017aa063c",
+    occupantId: "5d2ef34111ead80017be83df",
+    checkInDate: 10 / 10 / 2009,
+    checkOutDate: 10 / 10 / 2010,
+    leaseId: "e83724nht8"
+  },
+  {
+    apartmentId: "apartment2",
+    occupantId: "5d2ef34111ead80017be83df",
+    checkInDate: 11 / 11 / 2011,
+    checkOutDate: 12 / 12 / 2012,
+    leaseId: "e83724nht8"
+  }
+];
+
 module.exports.mockOccupants = [
-  { name: "Tom", employeeId: "1234567a", remarks: "might extend stay" },
-  { name: "Tim", employeeId: "1234567b" }
+  {
+    _id: mongoose.Types.ObjectId("5d2ef34111ead80017be83df"),
+    name: "Tom",
+    employeeId: "1234567a",
+    remarks: "might extend stay"
+  },
+  {
+    name: "Tim",
+    employeeId: "1234567b"
+  }
 ];

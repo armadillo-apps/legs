@@ -2,6 +2,7 @@ const app = require("../src/app");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
 const request = require("supertest");
+const { mockApartments, mockOccupants, mockStays } = require('./mockData/mockData')
 
 describe("stay READ and CREATE tests", () => {
   let connection;
@@ -25,55 +26,6 @@ describe("stay READ and CREATE tests", () => {
   beforeEach(async () => {
     await db.dropDatabase();
   });
-
-  let mockApartments = [
-    {
-      _id: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
-      name: "China Square Central 01-01",
-      address: "18 Cross Street #01-01",
-      bedrooms: 1,
-      capacity: 1,
-      leases: [
-        {
-          leaseStart: new Date("2018-01-01"),
-          leaseEnd: new Date("2019-01-01"),
-          monthlyRent: 5000
-        }
-      ],
-      landlord: {
-        name: "Jesstern",
-        accountNumber: "123ACF802",
-        mobile: 90001000,
-        email: "jess@thoughtworks.com"
-      }
-    }
-  ];
-
-  let mockStays = [
-    {
-      apartmentId: "5d303529e51a310017aa063c",
-      occupantId: "5d2ef34111ead80017be83df",
-      checkInDate: 10 / 10 / 2009,
-      checkOutDate: 10 / 10 / 2010,
-      leaseId: "e83724nht8"
-    },
-    {
-      apartmentId: "apartment2",
-      occupantId: "5d2ef34111ead80017be83df",
-      checkInDate: 11 / 11 / 2011,
-      checkOutDate: 12 / 12 / 2012,
-      leaseId: "e83724nht8"
-    }
-  ];
-
-  let mockOccupants = [
-    {
-      name: "Tom",
-      employeeId: "a009091a",
-      _id: mongoose.Types.ObjectId("5d2ef34111ead80017be83df"),
-      remarks: "might extend stay"
-    }
-  ];
 
   it("should render list of stays for a particular apartment", async () => {
     const mockDb = db.collection("stays");
