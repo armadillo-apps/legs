@@ -2,25 +2,26 @@ const app = require("../src/app");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
 const request = require("supertest");
-const apartmentTestData = require("./apartment.data");
+const { mockApartments } = require("./mockData/mockData");
+require("../src/utils/db");
 
 describe("apartment CRUD tests", () => {
   let connection;
   let db;
 
   beforeAll(async () => {
-    const mongoURI = global.__MONGO_URI__;
-    connection = await MongoClient.connect(mongoURI, {
+    const dbParams = global.__MONGO_URI__.split("/");
+    const dbName = dbParams[dbParams.length - 1];
+    connection = await MongoClient.connect(global.__MONGO_URI__, {
       useNewUrlParser: true
     });
-    const uriArray = mongoURI.split("/");
-    const dbName = uriArray[uriArray.length - 1];
     db = await connection.db(dbName);
   });
 
   afterAll(async () => {
     await mongoose.disconnect();
     await connection.close();
+    await db.close();
   });
 
   beforeEach(async () => {
@@ -30,7 +31,7 @@ describe("apartment CRUD tests", () => {
   describe("routes/apts", () => {
     it("should return list of apartments", async () => {
       const apartmentDbInstance = db.collection("apartments");
-      await apartmentDbInstance.insertMany(apartmentTestData);
+      await apartmentDbInstance.insertMany(mockApartments);
 
       const response = await request(app).get("/apartments");
 
@@ -40,16 +41,14 @@ describe("apartment CRUD tests", () => {
     });
 
     it("should add a new apartment", async () => {
-      const newApartment = apartmentTestData[0];
+      const newApartment = mockApartments[0];
       const response = await request(app)
         .post("/apartments")
         .send(newApartment);
 
-      const apartmentDbInstance = db.collection("apartments");
-
       expect(response.status).toEqual(201);
       expect(response.text).toEqual(
-        'Successfully added new apartment: China Square Central 01-01'
+        "Successfully added new apartment: China Square Central 01-01"
       );
     });
   });
