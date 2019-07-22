@@ -18,7 +18,7 @@ router.post("/", async (req, res, next) => {
     const createdOccupant = await OccupantController.createOne(newOccupant);
     return res
       .status(201)
-      .send(`Successfully added new occupant: "${createdOccupant.name}"`);
+      .send(`Successfully added new occupant: ${createdOccupant.name}`);
   } catch (err) {
     return next(err);
   }

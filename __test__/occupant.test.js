@@ -59,7 +59,7 @@ describe("occupant", () => {
         
         expect(response.status).toEqual(201);
         expect(foundOccupant.name).toEqual("Tim");
-        expect(response.text).toEqual('Successfully added new occupant: "Tim"');
+        expect(response.text).toEqual('Successfully added new occupant: Tim');
     });
   });
 });

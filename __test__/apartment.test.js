@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 const request = require("supertest");
 const apartmentTestData = require("./apartment.data");
 
-xdescribe("apartment CRUD tests", () => {
+describe("apartment CRUD tests", () => {
   let connection;
   let db;
 
@@ -32,9 +32,7 @@ xdescribe("apartment CRUD tests", () => {
       const apartmentDbInstance = db.collection("apartments");
       await apartmentDbInstance.insertMany(apartmentTestData);
 
-
-      const response = await request(app)
-        .get("/apartments");
+      const response = await request(app).get("/apartments");
 
       expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
@@ -50,7 +48,9 @@ xdescribe("apartment CRUD tests", () => {
       const apartmentDbInstance = db.collection("apartments");
 
       expect(response.status).toEqual(201);
-
+      expect(response.text).toEqual(
+        'Successfully added new apartment: China Square Central 01-01'
+      );
     });
   });
 });

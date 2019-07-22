@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const output = await addApartment(req.body);
-    res.status(201).send('apartment sucessfully created');
+    res.status(201).send(`Successfully added new apartment: ${output.name}`);
   } catch (err) {
     next(err);
   }
