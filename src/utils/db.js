@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const dbURI =
   process.env.MONGODB_URI ||
-  global.__MONGO_URI__;
+  global.__MONGO_URI__ ||
+  "mongodb://localhost:27017/testDb";
 console.log(dbURI);
 
 mongoose.connect(dbURI, {
