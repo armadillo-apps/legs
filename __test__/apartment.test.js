@@ -24,8 +24,9 @@ describe("apartment CRUD tests", () => {
     await db.close();
   });
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     await db.dropDatabase();
+    setTimeout(done, 0)
   });
 
   describe("routes/apts", () => {
@@ -34,7 +35,7 @@ describe("apartment CRUD tests", () => {
       await apartmentDbInstance.insertMany(mockApartments);
 
       const response = await request(app).get("/apartments");
-
+      
       expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
       expect(response.body.length).toEqual(2);

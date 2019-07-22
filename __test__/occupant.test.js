@@ -24,8 +24,9 @@ describe("occupant", () => {
     await db.close();
   });
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     await db.dropDatabase();
+    setTimeout(done, 0)
   });
 
   describe("/occupants", () => {
