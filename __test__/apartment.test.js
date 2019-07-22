@@ -24,9 +24,8 @@ describe("apartment CRUD tests", () => {
     await db.close();
   });
 
-  beforeEach(async (done) => {
+  beforeEach(async () => {
     await db.dropDatabase();
-    setTimeout(done, 0)
   });
 
   describe("routes/apts", () => {

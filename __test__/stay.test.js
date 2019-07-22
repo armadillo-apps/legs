@@ -22,9 +22,8 @@ describe("stay READ and CREATE tests", () => {
     await db.close();
   });
 
-  beforeEach(async done => {
+  beforeEach(async () => {
     await db.dropDatabase();
-    setTimeout(done, 0);
   });
 
   let mockApartments = [
