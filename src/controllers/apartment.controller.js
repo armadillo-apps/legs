@@ -1,4 +1,3 @@
-require("../utils/db");
 const ApartmentModel = require("../models/apartment.model.js");
 
 const getApartmentList = async () => {

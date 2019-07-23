@@ -15,11 +15,11 @@ const apartmentSchema = new mongoose.Schema({
   landlord: {
     name: { type: String, required: true },
     accountNumber: { type: String, required: true },
-    mobile: { type: Number },
+    mobile: { type: String },
     email: { type: String }
   }
 });
 
 const ApartmentModel = mongoose.model("apartment", apartmentSchema);
 
-module.exports = ApartmentModel
+module.exports = ApartmentModel;
