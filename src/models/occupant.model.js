@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const occupantSchema = mongoose.Schema({
+const occupantSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  employeeId: { type: String, required: true, unique: true },
+  employeeId: { type: String, unique: true , sparse: true},
   remarks: { type: String }
 });
 
