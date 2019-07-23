@@ -53,10 +53,25 @@ module.exports.mockStays = [
   {
     apartmentId: "apartment2",
     occupantId: "5d2ef34111ead80017be83df",
-    checkInDate: 11 / 11 / 2011,
-    checkOutDate: 12 / 12 / 2012,
+    checkInDate: 11 / 11 / 2013,
+    checkOutDate: 12 / 12 / 2014,
+    leaseId: "e83724nht8"
+  },
+  {
+    apartmentId: "12345",
+    occupantId: "5d2ef34111ead80017be5432",
+    checkInDate: 16 / 11 / 2016,
+    checkOutDate: 17 / 12 / 2017,
+    leaseId: "e83724nht8"
+  },
+  {
+    apartmentId: "12345",
+    occupantId: "5d2ef34111ead80017be1234",
+    checkInDate: 14 / 11 / 2014,
+    checkOutDate: 15 / 12 / 2015,
     leaseId: "e83724nht8"
   }
+  
 ];
 
 module.exports.mockOccupants = [
