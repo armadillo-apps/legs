@@ -32,4 +32,14 @@ const addStay = async (req, res, next) => {
   }
 };
 
-module.exports = { getStayList, addStay };
+const getApartmentProfileHistory = async (req, res, next) => {
+  try {
+    const { apartmentId } = req.params;
+    const foundStays = await StayModel.find({ apartmentId });
+    return res.send(foundStays);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = { getStayList, addStay, getApartmentProfileHistory };
