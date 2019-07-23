@@ -39,10 +39,10 @@ describe("stay READ and CREATE tests", () => {
       "/stays/apartments/5d303529e51a310017aa063c"
     );
 
-    expect(response.status).toEqual(200);
-    expect(Array.isArray(response.body)).toEqual(true);
-    expect(response.body.length).toEqual(1);
-    expect(response.body[0].occupantId).toEqual("5d2ef34111ead80017be83df");
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toBe(1);
+    expect(response.body[0].occupantId).toBe("5d2ef34111ead80017be83df");
   });
 
   it("should add an occupant's stay to an apartment", async () => {
@@ -61,8 +61,8 @@ describe("stay READ and CREATE tests", () => {
         checkOutDate: new Date("2021-10-01"),
         leaseId: "e83724nht8"
       });
-    expect(response.status).toEqual(201);
-    expect(response.text).toEqual(
+    expect(response.status).toBe(201);
+    expect(response.text).toBe(
       "Successfully assigned Tom to China Square Central 01-01"
     );
   });
@@ -84,8 +84,8 @@ describe("stay READ and CREATE tests", () => {
         leaseId: "e83724nht8"
       });
 
-    expect(response.status).toEqual(500);
-    expect(response.text).toEqual("Apartment not found");
+    expect(response.status).toBe(500);
+    expect(response.text).toBe("Apartment not found");
   });
 
   it("should return status 500 when occupant is not found", async () => {
@@ -105,7 +105,7 @@ describe("stay READ and CREATE tests", () => {
         leaseId: "e83724nht8"
       });
 
-    expect(response.status).toEqual(500);
-    expect(response.text).toEqual("Occupant not found");
+    expect(response.status).toBe(500);
+    expect(response.text).toBe("Occupant not found");
   });
 });
