@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { getStayList, addStay } = require("../controllers/stay.controller");
-const { getApartmentName } = require("../controllers/apartment.controller");
-const { getOccupantName } = require("../controllers/occupant.controller");
+const { getApartment } = require("../controllers/apartment.controller");
+const { getOccupant } = require("../controllers/occupant.controller");
 
 router.get("/apartments/:apartmentId", async (req, res, next) => {
-    try {
+  try {
     const foundStay = await getStayList(req.params.apartmentId);
     res.status(200).send(foundStay);
   } catch (err) {
@@ -15,12 +15,20 @@ router.get("/apartments/:apartmentId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
+    const foundApartment = await getApartment(req.body.apartmentId);
+    if (!foundApartment) {
+      throw new Error("Apartment not found");
+    }
+    const foundOccupant = await getOccupant(req.body.occupantId);
+    if (!foundOccupant) {
+      throw new Error("Occupant not found");
+    }
     await addStay(req.body);
-    const foundApartment = await getApartmentName(req.body.apartmentId);
-    const foundOccupant = await getOccupantName(req.body.occupantId);
     return res
       .status(201)
-      .send(`Successfully assigned ${foundOccupant} to ${foundApartment}`);
+      .send(
+        `Successfully assigned ${foundOccupant.name} to ${foundApartment.name}`
+      );
   } catch (err) {
     return next(err);
   }

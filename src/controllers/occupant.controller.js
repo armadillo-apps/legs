@@ -6,7 +6,6 @@ module.exports.createOne = async person => {
   return await Occupant.save();
 };
 
-module.exports.getOccupantName = async input => {
-  const Occupant = await OccupantModel.findById(input);
-  return Occupant.name;
+module.exports.getOccupant = async input => {
+  return await OccupantModel.findById(input);
 };

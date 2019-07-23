@@ -2,7 +2,11 @@ const app = require("../src/app");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
 const request = require("supertest");
-const { mockApartments, mockOccupants, mockStays } = require('./mockData/mockData')
+const {
+  mockApartments,
+  mockOccupants,
+  mockStays
+} = require("./mockData/mockData");
 
 describe("stay READ and CREATE tests", () => {
   let connection;
@@ -61,5 +65,47 @@ describe("stay READ and CREATE tests", () => {
     expect(response.text).toEqual(
       "Successfully assigned Tom to China Square Central 01-01"
     );
+  });
+
+  it("should return status 500 when apartment is not found", async () => {
+    const mockApartmentDb = db.collection("apartments");
+    await mockApartmentDb.insertMany(mockApartments);
+
+    const mockOccupantDb = db.collection("occupants");
+    await mockOccupantDb.insertMany(mockOccupants);
+
+    const response = await request(app)
+      .post("/stays")
+      .send({
+        apartmentId: mongoose.Types.ObjectId("5d303529e51a310017aa063A"),
+        occupantId: mongoose.Types.ObjectId("5d2ef34111ead80017be83df"),
+        checkInDate: new Date("2020-10-01"),
+        checkOutDate: new Date("2021-10-01"),
+        leaseId: "e83724nht8"
+      });
+
+    expect(response.status).toEqual(500);
+    expect(response.text).toEqual("Apartment not found");
+  });
+
+  it("should return status 500 when occupant is not found", async () => {
+    const mockApartmentDb = db.collection("apartments");
+    await mockApartmentDb.insertMany(mockApartments);
+
+    const mockOccupantDb = db.collection("occupants");
+    await mockOccupantDb.insertMany(mockOccupants);
+
+    const response = await request(app)
+      .post("/stays")
+      .send({
+        apartmentId: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
+        occupantId: mongoose.Types.ObjectId("5d2ef34111ead80017be83dA"),
+        checkInDate: new Date("2020-10-01"),
+        checkOutDate: new Date("2021-10-01"),
+        leaseId: "e83724nht8"
+      });
+
+    expect(response.status).toEqual(500);
+    expect(response.text).toEqual("Occupant not found");
   });
 });
