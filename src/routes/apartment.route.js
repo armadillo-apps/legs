@@ -1,26 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {
-  getApartmentList,
-  addApartment
-} = require('../controllers/apartment.controller');
+const Ctrl = require("../controllers/apartment.controller");
 
-router.get('/', async (req, res, next) => {
-  try {
-    const output = await getApartmentList();
-    res.status(200).json(output);
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.post('/', async (req, res, next) => {
-  try {
-    const output = await addApartment(req.body);
-    res.status(201).send(`Successfully added new apartment: ${output.name}`);
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/", Ctrl.getApartments);
+router.post("/", Ctrl.addApartment);
 
 module.exports = router;
