@@ -69,5 +69,10 @@ module.exports.mockOccupants = [
   {
     name: "Tim",
     employeeId: "1234567b"
+  },
+  {
+    name:"John",
   }
 ];
+
+

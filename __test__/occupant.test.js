@@ -55,5 +55,20 @@ describe("occupant", () => {
       expect(foundOccupant.name).toEqual("Tim");
       expect(response.text).toEqual("Successfully added new occupant: Tim");
     });
+
+    it("POST should create a new occupant without employeeId", async () => {
+      const response = await request(app)
+        .post("/occupants")
+        .send(mockOccupants[2]);
+
+      const mockDb = db.collection("occupants");
+      const foundOccupant = await mockDb.findOne({ name: "John" });
+      expect(response.status).toEqual(201);
+      expect(foundOccupant.name).toEqual("John");
+      expect(foundOccupant.employeeId).toBe(undefined);
+      expect(response.text).toEqual("Successfully added new occupant: John");
+    });
+
+   
   });
 });
