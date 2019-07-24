@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const OccupantModel = require("../models/occupant.model");
 
 const getOccupant = async (req, res, next) => {

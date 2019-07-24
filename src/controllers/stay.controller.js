@@ -1,4 +1,3 @@
-require("../utils/db");
 const StayModel = require("../models/stay.model");
 const ApartmentModel = require("../models/apartment.model");
 const OccupantModel = require("../models/occupant.model");

@@ -9,10 +9,7 @@
     "start:db": "mongod --dbpath ~/data/db",
     "test": "jest --runInBand __test__",
     "test:watch": "jest --runInBand --watch __test__",
-    "test:coverage": "jest --runInBand --coverage __test__",
-    "cy:open": "cypress open",
-    "cy:verify": "cypress verify",
-    "cy:run": "cypress run"
+    "test:coverage": "jest --runInBand --coverage __test__"
   },
   "jest": {
     "preset": "@shelf/jest-mongodb"
@@ -36,7 +33,6 @@
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.0",
-    "cypress": "^3.4.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",
     "supertest": "^4.0.2"
