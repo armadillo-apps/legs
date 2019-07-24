@@ -82,10 +82,12 @@ module.exports.mockOccupants = [
     remarks: "might extend stay"
   },
   {
+    _id: mongoose.Types.ObjectId("5d2ef34111ead80017be5432"),
     name: "Tim",
     employeeId: "1234567b"
   },
   {
+     _id: mongoose.Types.ObjectId("5d2ef34111ead80017be1234"),
     name:"John",
   }
 ];
