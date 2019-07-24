@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const staySchema = mongoose.Schema({
   apartmentId: { type: String, required: true },
   occupantId: { type: String, required: true },
-  checkInDate: { type: Date },
-  checkOutDate: { type: Date },
+  checkInDate: { type: Date, required: true },
+  checkOutDate: { type: Date, required: true },
   leaseId: { type: String }
 });
 
