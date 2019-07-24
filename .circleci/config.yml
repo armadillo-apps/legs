@@ -95,25 +95,6 @@ jobs:
           - run:
               name: Ping production server
               command: curl -s https://armadillo-legs.herokuapp.com/
-  uiTest:
-    docker:
-      - image: cypress/base:10
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - cache-{{ checksum "package.json" }}
-      - run:
-          name: Install dependencies
-          command: npm ci
-      - run: npm run cy:verify
-      - save_cache:
-          key: cache-{{ checksum "package.json" }}
-          paths:
-            - ~/.npm
-            - ~/.cache
-      - run:
-          command: npm run cy:run
 workflows:
   version: 2
   testAndDeploy:
@@ -123,9 +104,6 @@ workflows:
       - deployTest:
           requires:
             - unitTest
-      - uiTest:
-          requires:
-            - deployTest
       - deployDemo:
           requires:
             - uiTest
