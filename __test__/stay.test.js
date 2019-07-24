@@ -110,8 +110,10 @@ describe("stay READ and CREATE tests", () => {
   });
 
   it("should return all stays with a specified apartmentId", async () => {
-    const mockOccupantDb = db.collection("stays");
-    await mockOccupantDb.insertMany(mockStays);
+    const mockStaysDb = db.collection("stays");
+    await mockStaysDb.insertMany(mockStays);
+    const mockOccupantDb = db.collection("occupants");
+    await mockOccupantDb.insertMany(mockOccupants);
 
     const response = await request(app).get(
       "/stays/apartmentProfileHistory/12345"
@@ -122,5 +124,22 @@ describe("stay READ and CREATE tests", () => {
     expect(response.body.length).toBe(2);
     expect(response.body[0].occupantId).toBe("5d2ef34111ead80017be5432");
     expect(response.body[1].occupantId).toBe("5d2ef34111ead80017be1234");
+  });
+
+  it("should return all stays with occupant names", async () => {
+    const mockStaysDb = db.collection("stays");
+    await mockStaysDb.insertMany(mockStays);
+    const mockOccupantDb = db.collection("occupants");
+    await mockOccupantDb.insertMany(mockOccupants);
+
+    const response = await request(app).get(
+      "/stays/apartmentProfileHistory/12345"
+    );
+
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toBe(2);
+    expect(response.body[0].occupantName).toBe("Tim");
+    expect(response.body[1].occupantName).toBe("John");
   });
 });
