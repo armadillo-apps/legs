@@ -106,7 +106,7 @@ workflows:
             - unitTest
       - deployDemo:
           requires:
-            - uiTest
+            - deployTest
       - deployProd:
           requires:
             - deployDemo
