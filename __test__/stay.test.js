@@ -140,6 +140,8 @@ describe("stay READ and CREATE tests", () => {
     expect(Array.isArray(response.body)).toBe(true);
     expect(response.body.length).toBe(2);
     expect(response.body[0].occupantName).toBe("Tim");
+    expect(response.body[0].occupantRemarks).toBe("Has a pet cat");
     expect(response.body[1].occupantName).toBe("John");
+    expect(response.body[1].occupantRemarks).toEqual(undefined);
   });
 });

@@ -38,7 +38,7 @@ const getApartmentProfileHistory = async (req, res, next) => {
     const matchingStaysWithNames = await Promise.all(
       matchingStays.map(async stay => {
         const occupant = await OccupantModel.findOne({ _id: stay.occupantId });
-        const newStay = { ...stay._doc, occupantName: occupant.name };
+        const newStay = { ...stay._doc, occupantName: occupant.name, occupantRemarks: occupant.remarks };
         return newStay;
       })
     );
