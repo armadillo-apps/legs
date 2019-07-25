@@ -27,7 +27,6 @@
   "homepage": "https://github.com/armadillo-apps/legs#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.6.4"
   },
