@@ -13,6 +13,9 @@ mongoose.connect(dbURI, {
 
 const db = mongoose.connection;
 
+if (process.env.NODE_ENV === "test-environment") {
+  db.dropDatabase();
+}
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("connected to mongodb");
