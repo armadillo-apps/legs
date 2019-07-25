@@ -13,7 +13,7 @@ mongoose.connect(dbURI, {
 
 const db = mongoose.connection;
 
-if (process.env.NODE_ENV === "test-environment") {
+if (process.env.NODE_ENV === "development") {
   db.dropDatabase();
 }
 db.on("error", console.error.bind(console, "connection error:"));
