@@ -5,7 +5,7 @@ const occupantSchema = new mongoose.Schema({
   employeeId: { type: String, unique: true , sparse: true},
   remarks: { type: String },
   country: { type: String },
-  status: { type: String, required: true }
+  status: { type: String, default: 'inactive' }
 });
 
 const OccupantModel = mongoose.model("occupant", occupantSchema);
