@@ -56,7 +56,7 @@ describe("occupant", () => {
       expect(response.text).toEqual("Successfully added new occupant: Tim");
     });
 
-    it("POST should create a new occupant without employeeId", async () => {
+    it("POST should create a new occupant without employeeId and country", async () => {
       const response = await request(app)
         .post("/occupants")
         .send(mockOccupants[2]);
@@ -66,6 +66,7 @@ describe("occupant", () => {
       expect(response.status).toEqual(201);
       expect(foundOccupant.name).toEqual("John");
       expect(foundOccupant.employeeId).toBe(undefined);
+      expect(foundOccupant.country).toBe(undefined);
       expect(response.text).toEqual("Successfully added new occupant: John");
     });
 
