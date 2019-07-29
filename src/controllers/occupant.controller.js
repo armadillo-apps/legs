@@ -26,10 +26,11 @@ const createOccupant = async (req, res, next) => {
 const updateOccupant = async (req, res, next) => {
   try {
     const { occupantId } = req.params;
-    const { name, employeeId, remarks, country, status } = req.body;
+    const { name, employeeId, gender, remarks, country, status } = req.body;
     const newOccupantDetails = {
       name,
       employeeId,
+      gender,
       remarks,
       country,
       status
@@ -41,7 +42,7 @@ const updateOccupant = async (req, res, next) => {
       { new: true }
     );
 
-    return await res.status(201).json(occupantToUpdate)
+    return await res.status(201).json(occupantToUpdate);
   } catch (err) {
     const error = new Error("Unable to update occupant");
     return await res.status(400).json(error.message);

@@ -80,8 +80,9 @@ module.exports.mockOccupants = [
     _id: mongoose.Types.ObjectId("5d2ef34111ead80017be83df"),
     name: "Tom",
     employeeId: "1234567a",
+    gender: "male",
     remarks: "might extend stay",
-    country: "Thailand",
+    country: "thailand",
     status: "unallocated"
   },
   {
@@ -94,6 +95,5 @@ module.exports.mockOccupants = [
   {
     _id: mongoose.Types.ObjectId("5d2ef34111ead80017be1234"),
     name: "John",
-    status: "unallocated"
   }
 ];
