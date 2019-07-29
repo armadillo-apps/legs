@@ -144,4 +144,30 @@ describe("stay READ and CREATE tests", () => {
     expect(response.body[1].occupantName).toBe("John");
     expect(response.body[1].occupantRemarks).toEqual(undefined);
   });
+
+  it("should delete stay based on stayId", async () => {
+    const mockStaysDb = db.collection("stays");
+    await mockStaysDb.insertMany(mockStays);
+
+    const response = await request(app).delete(
+      "/stays/5d2ef34121ead80017be45df"
+    );
+
+    expect(response.status).toBe(202);
+    expect(response.text).toEqual("Successfully removed stay entry");
+    expect(
+      mockStaysDb.findOne({ _id: "5d2ef34121ead80017be45df" })
+    ).resolves.toBe(null);
+  });
+
+  it("should not delete stay when wrong stayId is provided", async () => {
+    const mockStaysDb = db.collection("stays");
+    await mockStaysDb.insertMany(mockStays);
+
+    const response = await request(app).delete(
+      "/stays/5d2ef34131ead80017be47df"
+    );
+    expect(response.status).toBe(500);
+    expect(response.text).toEqual("Stay entry not found");
+  });
 });

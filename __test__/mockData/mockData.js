@@ -44,6 +44,7 @@ module.exports.mockApartments = [
 
 module.exports.mockStays = [
   {
+    _id: mongoose.Types.ObjectId("5d2ef34121ead80017be45df"),
     apartmentId: "5d303529e51a310017aa063c",
     occupantId: "5d2ef34111ead80017be83df",
     checkInDate: 10 / 10 / 2009,
@@ -51,6 +52,7 @@ module.exports.mockStays = [
     leaseId: "e83724nht8"
   },
   {
+    _id: mongoose.Types.ObjectId("5d2ef34121ead80067be46df"),
     apartmentId: "apartment2",
     occupantId: "5d2ef34111ead80017be83df",
     checkInDate: 11 / 11 / 2013,
@@ -71,7 +73,6 @@ module.exports.mockStays = [
     checkOutDate: 15 / 12 / 2015,
     leaseId: "e83724nht8"
   }
-  
 ];
 
 module.exports.mockOccupants = [
@@ -88,9 +89,7 @@ module.exports.mockOccupants = [
     remarks: "Has a pet cat"
   },
   {
-     _id: mongoose.Types.ObjectId("5d2ef34111ead80017be1234"),
-    name:"John",
+    _id: mongoose.Types.ObjectId("5d2ef34111ead80017be1234"),
+    name: "John"
   }
 ];
-
-

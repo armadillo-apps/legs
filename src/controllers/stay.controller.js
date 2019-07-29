@@ -38,7 +38,11 @@ const getApartmentProfileHistory = async (req, res, next) => {
     const matchingStaysWithNames = await Promise.all(
       matchingStays.map(async stay => {
         const occupant = await OccupantModel.findOne({ _id: stay.occupantId });
-        const newStay = { ...stay._doc, occupantName: occupant.name, occupantRemarks: occupant.remarks };
+        const newStay = {
+          ...stay._doc,
+          occupantName: occupant.name,
+          occupantRemarks: occupant.remarks
+        };
         return newStay;
       })
     );
@@ -48,4 +52,21 @@ const getApartmentProfileHistory = async (req, res, next) => {
   }
 };
 
-module.exports = { getStayList, addStay, getApartmentProfileHistory };
+const deleteStay = async (req, res, next) => {
+  try {
+    const deletedStay = await StayModel.findByIdAndDelete(req.params.stayId);
+    if (!deletedStay){
+      throw new Error("Stay entry not found")
+    }
+    return res.status(202).send("Successfully removed stay entry");
+  } catch (err) {
+    return next(err);
+  }
+};
+
+module.exports = {
+  getStayList,
+  addStay,
+  getApartmentProfileHistory,
+  deleteStay
+};
