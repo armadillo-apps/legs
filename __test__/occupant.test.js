@@ -70,6 +70,29 @@ describe("occupant", () => {
       expect(response.text).toEqual("Successfully added new occupant: John");
     });
 
-   
+    it("PUT / should update occupant", async () => {
+      const occupants = db.collection("occupants");
+      await occupants.insertOne(mockOccupants[0]);
+
+      const requestBody = {
+        name: "Thompson",
+        employeeId: "56789a",
+        remarks: "wants to stay indefinitely",
+        country: "Singapore",
+        status: "allocated"
+      };
+
+      const response = await request(app)
+        .put("/occupants/5d2ef34111ead80017be83df")
+        .send(requestBody)
+        .set("Content-Type", "application/json");
+
+      const updatedOccupant = await db
+        .collection("occupants")
+        .findOne({ name: "Thompson" });
+
+      expect(response.status).toBe(201);
+      expect(updatedOccupant).toMatchObject(requestBody);
+    });
   });
 });

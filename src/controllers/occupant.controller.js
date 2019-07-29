@@ -23,4 +23,29 @@ const createOccupant = async (req, res, next) => {
   }
 };
 
-module.exports = { createOccupant, getOccupant };
+const updateOccupant = async (req, res, next) => {
+  try {
+    const { occupantId } = req.params;
+    const { name, employeeId, remarks, country, status } = req.body;
+    const newOccupantDetails = {
+      name,
+      employeeId,
+      remarks,
+      country,
+      status
+    };
+
+    const occupantToUpdate = await OccupantModel.findOneAndUpdate(
+      { _id: occupantId },
+      { $set: newOccupantDetails },
+      { new: true }
+    );
+
+    return await res.status(201).json(occupantToUpdate)
+  } catch (err) {
+    const error = new Error("Unable to update occupant");
+    return await res.status(400).json(error.message);
+  }
+};
+
+module.exports = { createOccupant, getOccupant, updateOccupant };
