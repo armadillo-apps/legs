@@ -41,6 +41,9 @@ describe("occupant", () => {
       expect(response.body[0].employeeId).toEqual("1234567a");
       expect(response.body[1].employeeId).toEqual("1234567b");
       expect(response.body[0].remarks).toEqual("might extend stay");
+      expect(response.body[0].gender).toEqual("male");
+      expect(response.body[0].country).toEqual("thailand");
+      expect(response.body[0].status).toEqual("unallocated");
     });
 
     it("POST should create a new occupant", async () => {
@@ -56,7 +59,7 @@ describe("occupant", () => {
       expect(response.text).toEqual("Successfully added new occupant: Tim");
     });
 
-    it("POST should create a new occupant without employeeId and country", async () => {
+    it("POST should be able to create a new occupant without the optional fields", async () => {
       const response = await request(app)
         .post("/occupants")
         .send(mockOccupants[2]);
@@ -67,6 +70,8 @@ describe("occupant", () => {
       expect(foundOccupant.name).toEqual("John");
       expect(foundOccupant.employeeId).toBe(undefined);
       expect(foundOccupant.country).toBe(undefined);
+      expect(foundOccupant.gender).toBe(undefined);
+      expect(foundOccupant.status).toBe('inactive');
       expect(response.text).toEqual("Successfully added new occupant: John");
     });
 
@@ -75,8 +80,9 @@ describe("occupant", () => {
       await occupants.insertOne(mockOccupants[0]);
 
       const requestBody = {
-        name: "Thompson",
+        name: "Aria",
         employeeId: "56789a",
+        gender:"Female",
         remarks: "wants to stay indefinitely",
         country: "Singapore",
         status: "allocated"
@@ -89,7 +95,7 @@ describe("occupant", () => {
 
       const updatedOccupant = await db
         .collection("occupants")
-        .findOne({ name: "Thompson" });
+        .findOne({ name: "Aria" });
 
       expect(response.status).toBe(201);
       expect(updatedOccupant).toMatchObject(requestBody);
