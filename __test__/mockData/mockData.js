@@ -47,30 +47,30 @@ module.exports.mockStays = [
     _id: mongoose.Types.ObjectId("5d2ef34121ead80017be45df"),
     apartmentId: "5d303529e51a310017aa063c",
     occupantId: "5d2ef34111ead80017be83df",
-    checkInDate: 10 / 10 / 2009,
-    checkOutDate: 10 / 10 / 2010,
+    checkInDate: new Date("2009-10-10"),
+    checkOutDate: new Date("2010-10-10"),
     leaseId: "e83724nht8"
   },
   {
     _id: mongoose.Types.ObjectId("5d2ef34121ead80067be46df"),
     apartmentId: "apartment2",
     occupantId: "5d2ef34111ead80017be83df",
-    checkInDate: 11 / 11 / 2013,
-    checkOutDate: 12 / 12 / 2014,
+    checkInDate: new Date("2013-11-11"),
+    checkOutDate: new Date("2014-12-12"),
     leaseId: "e83724nht8"
   },
   {
     apartmentId: "12345",
     occupantId: "5d2ef34111ead80017be5432",
-    checkInDate: 16 / 11 / 2016,
-    checkOutDate: 17 / 12 / 2017,
+    checkInDate: new Date("2016-11-16"),
+    checkOutDate: new Date("2017-12-17"),
     leaseId: "e83724nht8"
   },
   {
     apartmentId: "12345",
     occupantId: "5d2ef34111ead80017be1234",
-    checkInDate: 14 / 11 / 2014,
-    checkOutDate: 15 / 12 / 2015,
+    checkInDate: new Date("2014-11-14"),
+    checkOutDate: new Date("2015-12-15"),
     leaseId: "e83724nht8"
   }
 ];
