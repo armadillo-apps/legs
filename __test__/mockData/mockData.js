@@ -16,9 +16,7 @@ module.exports.mockApartments = [
     ],
     landlord: {
       name: "Jesstern",
-      accountNumber: "123ACF802",
-      mobile: 90001000,
-      email: "jess@thoughtworks.com"
+      accountNumber: "123ACF802"
     },
     country: "Singapore",
     remarks: "ThoughtWorks office"
@@ -37,9 +35,7 @@ module.exports.mockApartments = [
     ],
     landlord: {
       name: "Elson",
-      accountNumber: "555ABC666",
-      mobile: 91112222,
-      email: "elson@thoughtworks.com"
+      accountNumber: "555ABC666"
     },
     country: "Singapore",
     remarks: "This apartment is a dump!"
