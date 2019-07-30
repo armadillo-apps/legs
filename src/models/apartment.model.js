@@ -22,9 +22,7 @@ const apartmentSchema = new mongoose.Schema({
   ],
   landlord: {
     name: { type: String },
-    accountNumber: { type: String },
-    mobile: { type: String },
-    email: { type: String }
+    accountNumber: { type: String }
   },
   country: { type: String },
   remarks: { type: String }
