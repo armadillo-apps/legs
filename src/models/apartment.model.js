@@ -25,7 +25,8 @@ const apartmentSchema = new mongoose.Schema({
     accountNumber: { type: String },
     mobile: { type: String },
     email: { type: String }
-  }
+  },
+  remarks: { type: String }
 });
 
 const ApartmentModel = mongoose.model("apartment", apartmentSchema);
