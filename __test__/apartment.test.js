@@ -51,6 +51,7 @@ describe("apartment CRUD tests", () => {
         "Successfully added new apartment: China Square Central 01-01"
       );
     });
+
     it("should return error if any number input is < 0", async () => {
       const newApartment = {
         name: "Another Garden Shack",
@@ -66,9 +67,7 @@ describe("apartment CRUD tests", () => {
         ],
         landlord: {
           name: "Bobby",
-          accountNumber: "123",
-          mobile: "123",
-          email: "abc@garden.com"
+          accountNumber: "123"
         }
       };
       const response = await request(app)
@@ -78,6 +77,36 @@ describe("apartment CRUD tests", () => {
       expect(response.text).toEqual(
         "apartment validation failed: bedrooms: Bedrooms cannot be less than 0"
       );
+    });
+
+    it("PUT / should update apartment", async () => {
+      const apartments = db.collection("apartments");
+      await apartments.insertOne(mockApartments[0]);
+
+      const requestBody = {
+        name: "Avengers HQ",
+        address: "Who knows",
+        bedrooms: 2,
+        capacity: 2,
+        country: "Thailand",
+        landlord: {
+          name: "Someone",
+          accountNumber: "246810"
+        },
+        remarks: "This is great"
+      };
+
+      const response = await request(app)
+        .put("/apartments/5d303529e51a310017aa063c")
+        .send(requestBody)
+        .set("Content-Type", "application/json");
+
+      const updatedApartment = await db
+        .collection("apartments")
+        .findOne({ name: "Avengers HQ" });
+
+      expect(response.status).toBe(201);
+      expect(updatedApartment).toMatchObject(requestBody);
     });
   });
 });
