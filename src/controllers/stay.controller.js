@@ -1,6 +1,19 @@
-const StayModel = require("../models/stay.model");
 const ApartmentModel = require("../models/apartment.model");
 const OccupantModel = require("../models/occupant.model");
+const StayModel = require("../models/stay.model");
+
+const getAllStays = async (req, res, next) => {
+  try {
+    const stays = await StayModel.find().populate(
+      "apartment",
+      "name leases",
+      ApartmentModel
+    );
+    res.json(stays);
+  } catch (err) {
+    next(err);
+  }
+};
 
 const getStayList = async (req, res, next) => {
   try {
@@ -20,7 +33,13 @@ const addStay = async (req, res, next) => {
 
     const foundOccupant = await OccupantModel.findById(req.body.occupantId);
     if (!foundOccupant) throw new Error("Occupant not found");
-    await new StayModel(req.body).save();
+
+    const newStay = req.body;
+    newStay.apartment = foundApartment;
+    newStay.occupant = foundOccupant;
+
+    await new StayModel(newStay).save();
+
     return res
       .status(201)
       .send(
@@ -55,8 +74,8 @@ const getApartmentProfileHistory = async (req, res, next) => {
 const deleteStay = async (req, res, next) => {
   try {
     const deletedStay = await StayModel.findByIdAndDelete(req.params.stayId);
-    if (!deletedStay){
-      throw new Error("Stay entry not found")
+    if (!deletedStay) {
+      throw new Error("Stay entry not found");
     }
     return res.status(202).send("Successfully removed stay entry");
   } catch (err) {
@@ -68,5 +87,6 @@ module.exports = {
   getStayList,
   addStay,
   getApartmentProfileHistory,
-  deleteStay
+  deleteStay,
+  getAllStays
 };
