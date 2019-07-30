@@ -26,6 +26,7 @@ const apartmentSchema = new mongoose.Schema({
     mobile: { type: String },
     email: { type: String }
   },
+  country: { type: String },
   remarks: { type: String }
 });
 

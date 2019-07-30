@@ -19,7 +19,9 @@ module.exports.mockApartments = [
       accountNumber: "123ACF802",
       mobile: 90001000,
       email: "jess@thoughtworks.com"
-    }
+    },
+    country: "Singapore",
+    remarks: "ThoughtWorks office"
   },
   {
     name: "Parc Sophia Unit 05-10",
@@ -38,7 +40,9 @@ module.exports.mockApartments = [
       accountNumber: "555ABC666",
       mobile: 91112222,
       email: "elson@thoughtworks.com"
-    }
+    },
+    country: "Singapore",
+    remarks: "This apartment is a dump!"
   }
 ];
 
@@ -94,6 +98,6 @@ module.exports.mockOccupants = [
   },
   {
     _id: mongoose.Types.ObjectId("5d2ef34111ead80017be1234"),
-    name: "John",
+    name: "John"
   }
 ];
