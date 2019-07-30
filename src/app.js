@@ -1,6 +1,7 @@
 require("./utils/db");
 
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 const occupantRouter = require("./routes/occupant.route");
 const apartmentRouter = require("./routes/apartment.route");
@@ -24,6 +25,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(morgan("tiny"));
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World");
