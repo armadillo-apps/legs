@@ -36,13 +36,15 @@ const updateOccupant = async (req, res, next) => {
       status
     };
 
-    const occupantToUpdate = await OccupantModel.findOneAndUpdate(
+    const updatedOccupant = await OccupantModel.findOneAndUpdate(
       { _id: occupantId },
       { $set: newOccupantDetails },
       { new: true }
     );
 
-    return await res.status(201).json(occupantToUpdate);
+    return await res
+      .status(201)
+      .send(`Successfully update new occupant: ${updatedOccupant.name}`);
   } catch (err) {
     const error = new Error("Unable to update occupant");
     return await res.status(400).json(error.message);
