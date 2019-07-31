@@ -49,7 +49,24 @@ module.exports.mockStays = [
     occupantId: "5d2ef34111ead80017be83df",
     checkInDate: new Date("2009-10-10"),
     checkOutDate: new Date("2010-10-10"),
-    leaseId: "e83724nht8"
+    leaseId: "5d401557d855f9677f345692",
+    apartment: {
+      name: "Parc Sophia",
+      leases: [
+        {
+          _id: "5d401557d855f9677f345692",
+          leaseStart: "2008-10-25T00:00:00.000Z",
+          leaseEnd: "2004-12-25T00:00:00.000Z",
+          monthlyRent: "6000"
+        },
+        {
+          _id: "5d40fb0fe45a8c76d1061ebd",
+          leaseStart: "2009-11-25T00:00:00.000Z",
+          leaseEnd: "2003-11-25T00:00:00.000Z",
+          monthlyRent: "7000"
+        }
+      ]
+    }
   },
   {
     _id: mongoose.Types.ObjectId("5d2ef34121ead80067be46df"),

@@ -209,7 +209,8 @@ describe("stay READ and CREATE tests", () => {
     });
 
     it("should get all stays with populated apartment details", async () => {
-      const res = await request(app).get("/stays");
+      const occupantId = "5d2ef34111ead80017be83df";
+      const res = await request(app).get(`/stays?occupantId=${occupantId}`);
 
       expect(res.status).toBe(200);
       expect(res.headers["content-type"]).toBe(
