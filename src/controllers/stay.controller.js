@@ -2,11 +2,20 @@ const ApartmentModel = require("../models/apartment.model");
 const OccupantModel = require("../models/occupant.model");
 const StayModel = require("../models/stay.model");
 
-const getOccupantProfileHistory = async (req, res, next) => {
+const getAllStays = async (req, res, next) => {
+  const { occupantId } = req.query;
+
+  let query = {};
+  if (occupantId) {
+    query.occupantId = occupantId;
+  }
+
   try {
-    const stays = await StayModel.find({
-      occupantId: req.query.occupantId
-    }).populate("apartment", "name leases", ApartmentModel);
+    const stays = await StayModel.find(query).populate(
+      "apartment",
+      "name leases",
+      ApartmentModel
+    );
     res.json(stays);
   } catch (err) {
     next(err);
@@ -82,9 +91,9 @@ const deleteStay = async (req, res, next) => {
 };
 
 module.exports = {
+  getAllStays,
   getStayList,
   addStay,
   getApartmentProfileHistory,
-  deleteStay,
-  getOccupantProfileHistory
+  deleteStay
 };

@@ -172,43 +172,88 @@ describe("stay READ and CREATE tests", () => {
   });
 
   describe("get all stays", () => {
-    const mockStay = {
-      _id: mongoose.Types.ObjectId("5d2ef34121ead80017be45df"),
-      apartmentId: "5d303529e51a310017aa063c",
-      occupantId: "5d2ef34111ead80017be83df",
-      apartment: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
-      checkInDate: new Date("2009-10-10"),
-      checkOutDate: new Date("2010-10-10"),
-      leaseId: "e83724nht8"
-    };
-
-    const mockApartment = {
-      _id: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
-      name: "China Square Central",
-      address: "18 Cross Street #11-08",
-      bedrooms: 1,
-      capacity: 1,
-      leases: [
-        {
-          leaseStart: new Date("2018-01-01"),
-          leaseEnd: new Date("2019-01-01"),
-          monthlyRent: 5000
-        }
-      ],
-      landlord: {
-        name: "Jesstern",
-        accountNumber: "123ACF802",
-        mobile: 90001000,
-        email: "jess@thoughtworks.com"
+    const mockStays = [
+      {
+        _id: mongoose.Types.ObjectId("5d2ef34121ead80017be45df"),
+        apartmentId: "5d303529e51a310017aa063c",
+        occupantId: "5d2ef34111ead80017be83df",
+        apartment: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
+        checkInDate: new Date("2009-10-10"),
+        checkOutDate: new Date("2010-10-10"),
+        leaseId: "e83724nht8"
+      },
+      {
+        _id: mongoose.Types.ObjectId("ABCef34121ead80017be45df"),
+        apartmentId: "5d303529e51a310017aa0DEF",
+        occupantId: "ABCef34111ead80017be83df",
+        apartment: mongoose.Types.ObjectId("5d303529e51a310017aa0DEF"),
+        checkInDate: new Date("2009-10-10"),
+        checkOutDate: new Date("2010-10-10"),
+        leaseId: "e83724nht8"
       }
-    };
+    ];
+
+    const mockApartments = [
+      {
+        _id: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
+        name: "China Square Central",
+        address: "18 Cross Street #11-08",
+        bedrooms: 1,
+        capacity: 1,
+        leases: [
+          {
+            leaseStart: new Date("2018-01-01"),
+            leaseEnd: new Date("2019-01-01"),
+            monthlyRent: 5000
+          }
+        ],
+        landlord: {
+          name: "Jesstern",
+          accountNumber: "123ACF802",
+          mobile: 90001000,
+          email: "jess@thoughtworks.com"
+        }
+      },
+      {
+        _id: mongoose.Types.ObjectId("5d303529e51a310017aa0DEF"),
+        name: "Fancy Penthouse",
+        address: "18 Cross Street #11-08",
+        bedrooms: 1,
+        capacity: 1,
+        leases: [
+          {
+            leaseStart: new Date("2020-01-01"),
+            leaseEnd: new Date("2021-01-01"),
+            monthlyRent: 5000
+          }
+        ],
+        landlord: {
+          name: "Jesstern",
+          accountNumber: "123ACF802",
+          mobile: 90001000,
+          email: "jess@thoughtworks.com"
+        }
+      }
+    ];
 
     beforeEach(async () => {
-      await db.collection("stays").save(mockStay);
-      await db.collection("apartments").save(mockApartment);
+      await db.collection("stays").insertMany(mockStays);
+      await db.collection("apartments").insertMany(mockApartments);
     });
 
     it("should get all stays with populated apartment details", async () => {
+      const res = await request(app).get("/stays");
+
+      expect(res.status).toBe(200);
+      expect(res.headers["content-type"]).toBe(
+        "application/json; charset=utf-8"
+      );
+
+      const stays = res.body;
+      expect(stays.length).toEqual(2);
+    });
+
+    it("should get occupant's stays with China Square Central as apartment name", async () => {
       const occupantId = "5d2ef34111ead80017be83df";
       const res = await request(app).get(`/stays?occupantId=${occupantId}`);
 
@@ -218,11 +263,33 @@ describe("stay READ and CREATE tests", () => {
       );
 
       const [stay] = res.body;
+      expect(res.body.length).toEqual(1);
       expect(stay.apartment.name).toEqual("China Square Central");
       expect(stay.apartment.leases).toEqual([
         {
           leaseStart: "2018-01-01T00:00:00.000Z",
           leaseEnd: "2019-01-01T00:00:00.000Z",
+          monthlyRent: 5000
+        }
+      ]);
+    });
+
+    it("should get occupant's stays with Fancy Penthouse as apartment name", async () => {
+      const occupantId = "ABCef34111ead80017be83df";
+      const res = await request(app).get(`/stays?occupantId=${occupantId}`);
+
+      expect(res.status).toBe(200);
+      expect(res.headers["content-type"]).toBe(
+        "application/json; charset=utf-8"
+      );
+
+      const [stay] = res.body;
+      expect(res.body.length).toEqual(1);
+      expect(stay.apartment.name).toEqual("Fancy Penthouse");
+      expect(stay.apartment.leases).toEqual([
+        {
+          leaseStart: "2020-01-01T00:00:00.000Z",
+          leaseEnd: "2021-01-01T00:00:00.000Z",
           monthlyRent: 5000
         }
       ]);
