@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const occupantSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  employeeId: { type: String, unique: true, sparse: true },
+  employeeId: { type: String },
   gender: { type: String },
   remarks: { type: String },
   country: { type: String },

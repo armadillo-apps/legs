@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const apartmentSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  address: { type: String, required: true, unique: true },
+  address: { type: String, required: true },
   bedrooms: { type: Number, min: [0, "Bedrooms cannot be less than 0"] },
   capacity: {
     type: Number,
