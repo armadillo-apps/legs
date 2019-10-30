@@ -29,7 +29,7 @@ describe("users CRUD tests", () => {
   });
 
   describe("routes/users", () => {
-    xit("should return list of users", async () => {
+    it("should return list of users", async () => {
       const userDbInstance = db.collection("users");
       await userDbInstance.insertMany(mockUsers);
 
@@ -39,5 +39,5 @@ describe("users CRUD tests", () => {
       expect(Array.isArray(response.body)).toEqual(true);
       expect(response.body.length).toEqual(2);
     });
-  })
-})
+  });
+});
