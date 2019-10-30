@@ -114,3 +114,14 @@ module.exports.mockOccupants = [
     name: "John"
   }
 ];
+
+module.exports.mockUsers = [
+  {
+    email: "elson@thoughtworks.com",
+    password: "pass1234"
+  },
+  {
+    email: "mabel@thoughtworks.com",
+    password: "pass1234"
+  }
+];
