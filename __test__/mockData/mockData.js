@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 module.exports.mockApartments = [
   {
@@ -115,13 +116,19 @@ module.exports.mockOccupants = [
   }
 ];
 
+const hashPassword = password => {
+  const rounds = 10;
+  const hashedPassword = bcrypt.hashSync(password, rounds);
+  return hashedPassword;
+};
+
 module.exports.mockUsers = [
   {
     email: "elson@thoughtworks.com",
-    password: "pass1234"
+    password: hashPassword("pass1234")
   },
   {
     email: "mabel@thoughtworks.com",
-    password: "pass1234"
+    password: hashPassword("pass1234")
   }
 ];
