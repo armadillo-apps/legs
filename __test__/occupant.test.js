@@ -1,33 +1,8 @@
 const app = require("../src/app");
-const mongoose = require("mongoose");
-const { MongoClient } = require("mongodb");
 const request = require("supertest");
-require("../src/utils/db");
 const { mockOccupants } = require("./mockData/mockData");
 
 describe("occupant", () => {
-  let connection;
-  let db;
-
-  beforeAll(async () => {
-    const dbParams = global.__MONGO_URI__.split("/");
-    const dbName = dbParams[dbParams.length - 1];
-    connection = await MongoClient.connect(global.__MONGO_URI__, {
-      useNewUrlParser: true
-    });
-    db = await connection.db(dbName);
-  });
-
-  afterAll(async () => {
-    await mongoose.disconnect();
-    await connection.close();
-    await db.close();
-  });
-
-  beforeEach(async () => {
-    await db.dropDatabase();
-  });
-
   describe("/occupants", () => {
     it("GET / should return list of current occupants", async () => {
       const mockDb = db.collection("occupants");

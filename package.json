@@ -12,9 +12,6 @@
     "test:watch": "jest --runInBand --watch __test__",
     "test:coverage": "jest --runInBand --coverage __test__"
   },
-  "jest": {
-    "preset": "@shelf/jest-mongodb"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/armadillo-apps/legs.git"

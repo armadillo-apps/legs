@@ -1,6 +1,5 @@
 const app = require("../src/app");
 const mongoose = require("mongoose");
-const { MongoClient } = require("mongodb");
 const request = require("supertest");
 const {
   mockApartments,
@@ -9,28 +8,6 @@ const {
 } = require("./mockData/mockData");
 
 describe("stay READ and CREATE tests", () => {
-  let connection;
-  let db;
-
-  beforeAll(async () => {
-    const dbParams = global.__MONGO_URI__.split("/");
-    const dbName = dbParams[dbParams.length - 1];
-    connection = await MongoClient.connect(global.__MONGO_URI__, {
-      useNewUrlParser: true
-    });
-    db = await connection.db(dbName);
-  });
-
-  afterAll(async () => {
-    await mongoose.disconnect();
-    await connection.close();
-    await db.close();
-  });
-
-  beforeEach(async () => {
-    await db.dropDatabase();
-  });
-
   it("should render list of stays for a particular apartment", async () => {
     const mockDb = db.collection("stays");
     await mockDb.insertMany(mockStays);
