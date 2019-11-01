@@ -1,4 +1,4 @@
-const ApartmentModel = require("../models/apartment.model.js");
+const ApartmentModel = require("../models/Apartment.model.js");
 
 const getApartments = async (req, res, next) => {
   try {

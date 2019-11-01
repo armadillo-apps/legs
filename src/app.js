@@ -3,9 +3,9 @@ require("./utils/db");
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
-const occupantRouter = require("./routes/occupant.route");
-const apartmentRouter = require("./routes/apartment.route");
-const stayRouter = require("./routes/stay.route");
+const occupantRouter = require("./routes/occupants.route");
+const apartmentRouter = require("./routes/apartments.route");
+const stayRouter = require("./routes/stays.route");
 const userRouter = require("./routes/users.route");
 const cors = require("cors");
 

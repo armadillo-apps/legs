@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require("../models/apartment.model");
+require("./Apartment.model");
 
 const staySchema = mongoose.Schema({
   apartmentId: { type: String, required: true },

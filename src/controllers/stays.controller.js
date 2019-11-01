@@ -1,6 +1,6 @@
-const ApartmentModel = require("../models/apartment.model");
-const OccupantModel = require("../models/occupant.model");
-const StayModel = require("../models/stay.model");
+const ApartmentModel = require("../models/Apartment.model");
+const OccupantModel = require("../models/Occupant.model");
+const StayModel = require("../models/Stay.model");
 
 const getAllStays = async (req, res, next) => {
   const { occupantId } = req.query;

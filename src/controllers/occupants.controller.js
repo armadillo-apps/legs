@@ -1,4 +1,4 @@
-const OccupantModel = require("../models/occupant.model");
+const OccupantModel = require("../models/Occupant.model");
 
 const getOccupant = async (req, res, next) => {
   try {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Ctrl = require("../controllers/occupant.controller");
+const Ctrl = require("../controllers/occupants.controller");
 
 router.get("/", Ctrl.getOccupant);
 router.post("/", Ctrl.createOccupant);

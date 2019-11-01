@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Ctrl = require("../controllers/stay.controller");
+const Ctrl = require("../controllers/stays.controller");
 
 router.get("/", Ctrl.getAllStays);
 
