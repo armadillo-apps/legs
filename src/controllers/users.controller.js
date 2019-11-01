@@ -22,7 +22,7 @@ const loginUser = async (req, res, next) => {
     }
     const token = jwt.sign({ email: user.email }, "secretkey");
     res.cookie("token", token);
-    res.send();
+    res.send("You are logged in");
   } catch (err) {
     if (err.message === "Login was unsuccessful") {
       err.status = 400;
