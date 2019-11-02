@@ -8,6 +8,12 @@ const {
 } = require("./mockData/mockData");
 
 describe("stay READ and CREATE tests", () => {
+  let db;
+
+  beforeEach(() => {
+    db = global.db;
+  });
+
   it("should render list of stays for a particular apartment", async () => {
     const mockDb = db.collection("stays");
     await mockDb.insertMany(mockStays);

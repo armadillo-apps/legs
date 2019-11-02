@@ -3,6 +3,12 @@ const request = require("supertest");
 const { mockOccupants } = require("./mockData/mockData");
 
 describe("occupant", () => {
+  let db;
+
+  beforeEach(() => {
+    db = global.db;
+  });
+
   describe("/occupants", () => {
     it("GET / should return list of current occupants", async () => {
       const mockDb = db.collection("occupants");
@@ -46,7 +52,7 @@ describe("occupant", () => {
       expect(foundOccupant.employeeId).toBe(undefined);
       expect(foundOccupant.country).toBe(undefined);
       expect(foundOccupant.gender).toBe(undefined);
-      expect(foundOccupant.status).toBe('inactive');
+      expect(foundOccupant.status).toBe("inactive");
       expect(response.text).toEqual("Successfully added new occupant: John");
     });
 
@@ -57,7 +63,7 @@ describe("occupant", () => {
       const requestBody = {
         name: "Aria",
         employeeId: "56789a",
-        gender:"Female",
+        gender: "Female",
         remarks: "wants to stay indefinitely",
         country: "Singapore",
         status: "allocated"

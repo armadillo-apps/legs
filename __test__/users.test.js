@@ -6,6 +6,12 @@ const jwt = require("jsonwebtoken");
 jest.mock("jsonwebtoken");
 
 describe("users CRUD tests", () => {
+  let db;
+
+  beforeEach(() => {
+    db = global.db;
+  });
+
   describe("[GET] users/", () => {
     it("Denies access when user is not logged in and no token is provided", async () => {
       const userDbInstance = db.collection("users");
@@ -22,7 +28,9 @@ describe("users CRUD tests", () => {
       await userDbInstance.insertMany(mockUsers);
       jwt.verify.mockReturnValueOnce({});
 
-      const response = await request(app).get("/users").set("Cookie", "token=valid-token");
+      const response = await request(app)
+        .get("/users")
+        .set("Cookie", "token=valid-token");
 
       expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
@@ -37,7 +45,9 @@ describe("users CRUD tests", () => {
         throw new Error();
       });
 
-      const response = await request(app).get("/users").set("Cookie", "token=invalid-token");
+      const response = await request(app)
+        .get("/users")
+        .set("Cookie", "token=invalid-token");
 
       expect(response.status).toEqual(401);
       expect(jwt.verify).toHaveBeenCalledTimes(1);

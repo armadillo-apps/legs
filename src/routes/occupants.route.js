@@ -4,6 +4,6 @@ const Ctrl = require("../controllers/occupants.controller");
 
 router.get("/", Ctrl.getOccupant);
 router.post("/", Ctrl.createOccupant);
-router.put("/:occupantId", Ctrl.updateOccupant)
+router.put("/:occupantId", Ctrl.updateOccupant);
 
 module.exports = router;

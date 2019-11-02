@@ -3,6 +3,12 @@ const request = require("supertest");
 const { mockApartments } = require("./mockData/mockData");
 
 describe("apartment CRUD tests", () => {
+  let db;
+
+  beforeEach(() => {
+    db = global.db;
+  });
+
   describe("routes/apts", () => {
     it("should return list of apartments", async () => {
       const apartmentDbInstance = db.collection("apartments");

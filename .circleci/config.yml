@@ -8,25 +8,7 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-      - run: 
-          name: Install dependencies
-          command: npm install
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package.json" }}
-          paths:
-            - node_modules  
-      - run: 
-          name: Run unit tests
-          command: npm run test
-  testCoverage:
-    docker:
-      - image: circleci/node:12.6.0-browsers
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-      - run: 
+      - run:
           name: Install dependencies
           command: npm install
       - save_cache:
@@ -34,67 +16,67 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: "Run Jest and collect coverage Reports"
+          name: Run lint
+          command: npm run lint
+      - run:
+          name: Run unit tests
           command: npm run test:coverage
-      - store_artifacts:
-          path: coverage
-
   deployTest:
-      docker:
-        - image: circleci/node:12.6.0
-      environment:
-        HEROKU_APP_NAME: test-armadillo-legs
-      steps:
-        - checkout
-        - run:
-            name: Deploy to test backend on Heroku
-            command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-        - run: sleep 10
-        - run:
-            name: Ping test deployment
-            command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com/
+    docker:
+      - image: circleci/node:12.6.0
+    environment:
+      HEROKU_APP_NAME: test-armadillo-legs
+    steps:
+      - checkout
+      - run:
+          name: Deploy to test backend on Heroku
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+      - run: sleep 10
+      - run:
+          name: Ping test deployment
+          command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com/
 
   deployDemo:
-      docker:
-        - image: circleci/node:12.6.0
-      environment:
-        HEROKU_APP_NAME: demo-armadillo-legs
-      steps:
-        - checkout
-        - run:
-            name: Deploy to demo backend on Heroku
-            command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master 
-        - run: sleep 10
-        - run:
-            name: Ping demo deployment
-            command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com/
+    docker:
+      - image: circleci/node:12.6.0
+    environment:
+      HEROKU_APP_NAME: demo-armadillo-legs
+    steps:
+      - checkout
+      - run:
+          name: Deploy to demo backend on Heroku
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+      - run: sleep 10
+      - run:
+          name: Ping demo deployment
+          command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com/
   deployProd:
-      docker:
-        - image: circleci/node:12.6.0
-      environment:
-        HEROKU_APP_NAME: armadillo-legs
-      steps:
-        - checkout
-        - run:
-            name: Deploy to production backend on Heroku
-            command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-        - run: sleep 10
-        - run:
-            name: Ping production deployment
-            command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com/
+    docker:
+      - image: circleci/node:12.6.0
+    environment:
+      HEROKU_APP_NAME: armadillo-legs
+    steps:
+      - checkout
+      - run:
+          name: Deploy to production backend on Heroku
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+      - run: sleep 10
+      - run:
+          name: Ping production deployment
+          command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com/
   pingAll:
-        docker:
-          - image: circleci/node:12.6.0-browsers
-        steps:
-          - run:
-              name: Ping test server
-              command: curl -s https://test-armadillo-legs.herokuapp.com/
-          - run:
-              name: Ping demo server
-              command: curl -s https://demo-armadillo-legs.herokuapp.com/
-          - run:
-              name: Ping production server
-              command: curl -s https://armadillo-legs.herokuapp.com/
+    docker:
+      - image: circleci/node:12.6.0-browsers
+    steps:
+      - run:
+          name: Ping test server
+          command: curl -s https://test-armadillo-legs.herokuapp.com/
+      - run:
+          name: Ping demo server
+          command: curl -s https://demo-armadillo-legs.herokuapp.com/
+      - run:
+          name: Ping production server
+          command: curl -s https://armadillo-legs.herokuapp.com/
 workflows:
   version: 2
   testAndDeploy:
