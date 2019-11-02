@@ -22,5 +22,6 @@ afterAll(async () => {
 });
 
 afterEach(async () => {
+  jest.resetAllMocks();
   await db.dropDatabase();
 });

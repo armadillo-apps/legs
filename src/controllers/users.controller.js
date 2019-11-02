@@ -1,9 +1,8 @@
 const UserModel = require("../models/User.model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const authController = require("./auth.controller");
 
-const getUsers = async (req, res, next) => {
+const getUsers =  async (req, res, next) => {
   try {
     const allUsers = await UserModel.find();
     res.status(200).json(allUsers);
@@ -25,7 +24,7 @@ const loginUser = async (req, res, next) => {
     res.send("You are logged in");
   } catch (err) {
     if (err.message === "Login was unsuccessful") {
-      err.status = 400;
+      err.statusCode = 400;
     }
     next(err);
   }

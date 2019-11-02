@@ -3,6 +3,7 @@ require("./utils/db");
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const cookieParser = require("cookie-parser");
 const occupantRouter = require("./routes/occupants.route");
 const apartmentRouter = require("./routes/apartments.route");
 const stayRouter = require("./routes/stays.route");
@@ -25,6 +26,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("tiny"));
 
