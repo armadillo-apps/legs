@@ -100,7 +100,7 @@ module.exports.mockOccupants = [
     employeeId: "1234567a",
     gender: "male",
     remarks: "might extend stay",
-    country: "thailand",
+    homeOffice: "Bangkok, Thailand",
     status: "unallocated"
   },
   {

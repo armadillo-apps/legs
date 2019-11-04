@@ -5,7 +5,7 @@ const occupantSchema = new mongoose.Schema({
   employeeId: { type: String },
   gender: { type: String },
   remarks: { type: String },
-  country: { type: String },
+  homeOffice: { type: String },
   status: { type: String, default: "inactive" }
 });
 

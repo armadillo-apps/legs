@@ -23,7 +23,7 @@ describe("occupant", () => {
       expect(response.body[1].employeeId).toEqual("1234567b");
       expect(response.body[0].remarks).toEqual("might extend stay");
       expect(response.body[0].gender).toEqual("male");
-      expect(response.body[0].country).toEqual("thailand");
+      expect(response.body[0].homeOffice).toEqual("Bangkok, Thailand");
       expect(response.body[0].status).toEqual("unallocated");
     });
 
@@ -50,7 +50,7 @@ describe("occupant", () => {
       expect(response.status).toEqual(201);
       expect(foundOccupant.name).toEqual("John");
       expect(foundOccupant.employeeId).toBe(undefined);
-      expect(foundOccupant.country).toBe(undefined);
+      expect(foundOccupant.homeOffice).toBe(undefined);
       expect(foundOccupant.gender).toBe(undefined);
       expect(foundOccupant.status).toBe("inactive");
       expect(response.text).toEqual("Successfully added new occupant: John");
@@ -65,7 +65,7 @@ describe("occupant", () => {
         employeeId: "56789a",
         gender: "Female",
         remarks: "wants to stay indefinitely",
-        country: "Singapore",
+        homeOffice: "Singapore, Singapore",
         status: "allocated"
       };
 

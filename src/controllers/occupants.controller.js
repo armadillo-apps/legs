@@ -26,13 +26,13 @@ const createOccupant = async (req, res, next) => {
 const updateOccupant = async (req, res, next) => {
   try {
     const { occupantId } = req.params;
-    const { name, employeeId, gender, remarks, country, status } = req.body;
+    const { name, employeeId, gender, remarks, homeOffice, status } = req.body;
     const newOccupantDetails = {
       name,
       employeeId,
       gender,
       remarks,
-      country,
+      homeOffice,
       status
     };
 
