@@ -2,6 +2,7 @@ const app = require("../src/app");
 const request = require("supertest");
 const { mockUsers } = require("./mockData/mockData");
 const jwt = require("jsonwebtoken");
+const User = require("../src/models/User.model");
 
 jest.mock("jsonwebtoken");
 
@@ -87,6 +88,18 @@ describe("users CRUD tests", () => {
           .send({ email: "jesstern@thoughtworks.com", password: "pass1234" });
 
         expect(response.status).toEqual(200);
+      });
+
+      it("should not allow a user to sign up with an existing email", async () => {
+        await User.ensureIndexes();
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+
+        const response = await request(app)
+          .post("/users/new")
+          .send({ email: "elson@thoughtworks.com", password: "pass1234" });
+
+        expect(response.status).toBe(400);
       });
     });
   });

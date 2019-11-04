@@ -37,6 +37,9 @@ const addUser = async (req, res, next) => {
     const newUser = await user.save();
     res.send(newUser);
   } catch (err) {
+    if (err.name === "MongoError" && err.code === 11000) {
+      err.statusCode = 400;
+    }
     next(err);
   }
 };
