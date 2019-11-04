@@ -1,3 +1,4 @@
+const sslRedirect = require("heroku-ssl-redirect");
 require("./utils/db");
 
 const express = require("express");
@@ -29,6 +30,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("tiny"));
+app.use(sslRedirect());
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World");
