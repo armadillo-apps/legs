@@ -30,6 +30,7 @@ const updateApartment = async (req, res, next) => {
       bedrooms,
       capacity,
       country,
+      status,
       landlord,
       remarks
     } = req.body;
@@ -39,6 +40,7 @@ const updateApartment = async (req, res, next) => {
       bedrooms,
       capacity,
       country,
+      status,
       landlord,
       remarks
     };
