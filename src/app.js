@@ -26,11 +26,11 @@ const corsOptions = {
   optionsSuccessStatus: 204
 };
 
+app.use(sslRedirect());
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("tiny"));
-app.use(sslRedirect());
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World");
