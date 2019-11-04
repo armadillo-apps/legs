@@ -132,3 +132,14 @@ module.exports.mockUsers = [
     password: hashPassword("pass1234")
   }
 ];
+
+module.exports.mockOccupantWithoutName = [
+  {
+    _id: mongoose.Types.ObjectId("5d2ef34111ead80017be83df"),
+    employeeId: "1234567a",
+    gender: "male",
+    remarks: "might extend stay",
+    homeOffice: "Bangkok, Thailand",
+    status: "unallocated"
+  }
+];

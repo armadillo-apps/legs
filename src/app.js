@@ -1,4 +1,3 @@
-const sslRedirect = require("heroku-ssl-redirect");
 require("./utils/db");
 
 const express = require("express");
@@ -26,7 +25,13 @@ const corsOptions = {
   optionsSuccessStatus: 204
 };
 
-app.use(sslRedirect());
+if (process.env.NODE_ENV === "production") {
+  app.use((req, res, next) => {
+    if (req.header("x-forwarded-proto") !== "https")
+      res.redirect(`https://${req.header("host")}${req.url}`);
+    else next();
+  });
+}
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());

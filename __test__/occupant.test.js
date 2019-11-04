@@ -1,6 +1,9 @@
 const app = require("../src/app");
 const request = require("supertest");
-const { mockOccupants } = require("./mockData/mockData");
+const {
+  mockOccupants,
+  mockOccupantWithoutName
+} = require("./mockData/mockData");
 
 describe("occupant", () => {
   let db;
@@ -38,6 +41,13 @@ describe("occupant", () => {
       expect(response.status).toEqual(201);
       expect(foundOccupant.name).toEqual("Tim");
       expect(response.text).toEqual("Successfully added new occupant: Tim");
+    });
+
+    it("POST should not create a new occupant without a name", async () => {
+      const response = await request(app)
+        .post("/occupants")
+        .send(mockOccupantWithoutName[0]);
+      expect(response.status).toEqual(400);
     });
 
     it("POST should be able to create a new occupant without the optional fields", async () => {
