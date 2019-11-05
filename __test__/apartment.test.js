@@ -14,6 +14,16 @@ describe("apartment CRUD tests", () => {
   });
 
   describe("routes/apts", () => {
+    it("should not return list of apartments if the user is not logged in", async () => {
+      const apartmentDbInstance = db.collection("apartments");
+      await apartmentDbInstance.insertMany(mockApartments);
+
+      const response = await request(app).get("/apartments");
+
+      expect(response.status).toEqual(401);
+      expect(jwt.verify).toHaveBeenCalledTimes(0);
+    });
+
     it("should return list of apartments", async () => {
       const apartmentDbInstance = db.collection("apartments");
       await apartmentDbInstance.insertMany(mockApartments);
