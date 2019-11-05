@@ -19,6 +19,6 @@
   "rules": {
     "jest/valid-expect": "warn",
     "no-unused-vars": "warn",
-    "prettier/prettier": "warn"
+    "prettier/prettier": "error"
   }
 }
