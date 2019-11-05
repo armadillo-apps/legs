@@ -22,7 +22,8 @@ const corsOptions = {
     "http://localhost:3005"
   ],
   preflightContinue: false,
-  optionsSuccessStatus: 204
+  optionsSuccessStatus: 204,
+  credentials: true
 };
 
 if (process.env.NODE_ENV === "production") {

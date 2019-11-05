@@ -30,6 +30,10 @@ const loginUser = async (req, res, next) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  res.clearCookie("token").send("You are logged out");
+};
+
 const addUser = async (req, res, next) => {
   try {
     const user = new UserModel(req.body);
@@ -44,4 +48,4 @@ const addUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, loginUser, addUser };
+module.exports = { getUsers, loginUser, logoutUser, addUser };
