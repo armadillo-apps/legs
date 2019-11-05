@@ -14,44 +14,15 @@ describe("users CRUD tests", () => {
   });
 
   describe("[GET] users/", () => {
-    it("Denies access when user is not logged in and no token is provided", async () => {
+    it("should return a list of users", async () => {
       const userDbInstance = db.collection("users");
       await userDbInstance.insertMany(mockUsers);
 
       const response = await request(app).get("/users");
 
-      expect(response.status).toEqual(401);
-      expect(jwt.verify).not.toHaveBeenCalled();
-    });
-
-    it("should return list of users if the user has logged in and is authorized", async () => {
-      const userDbInstance = db.collection("users");
-      await userDbInstance.insertMany(mockUsers);
-      jwt.verify.mockReturnValueOnce({});
-
-      const response = await request(app)
-        .get("/users")
-        .set("Cookie", "token=valid-token");
-
       expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
       expect(response.body.length).toEqual(2);
-      expect(jwt.verify).toHaveBeenCalledTimes(1);
-    });
-
-    it("Denies access if the user is not authorized", async () => {
-      const userDbInstance = db.collection("users");
-      await userDbInstance.insertMany(mockUsers);
-      jwt.verify.mockImplementationOnce(() => {
-        throw new Error();
-      });
-
-      const response = await request(app)
-        .get("/users")
-        .set("Cookie", "token=invalid-token");
-
-      expect(response.status).toEqual(401);
-      expect(jwt.verify).toHaveBeenCalledTimes(1);
     });
 
     describe("[POST] users/login", () => {
