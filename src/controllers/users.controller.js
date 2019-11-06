@@ -23,9 +23,7 @@ const loginUser = async (req, res, next) => {
     res.cookie("token", token);
     res.send("You are logged in");
   } catch (err) {
-    if (err.message === "Login was unsuccessful") {
-      err.statusCode = 400;
-    }
+    err.statusCode = 400;
     next(err);
   }
 };

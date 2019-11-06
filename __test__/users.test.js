@@ -73,5 +73,16 @@ describe("users CRUD tests", () => {
         expect(response.status).toBe(400);
       });
     });
+
+    describe("[POST] users/logout", () => {
+      it("should allow a logged in user to logout", async () => {
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+
+        const response = await request(app).post("/users/logout");
+
+        expect(response.status).toEqual(200);
+      });
+    });
   });
 });

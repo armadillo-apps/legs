@@ -6,15 +6,34 @@ const {
   mockOccupants,
   mockStays
 } = require("./mockData/mockData");
+const jwt = require("jsonwebtoken");
+
+jest.mock("jsonwebtoken");
 
 describe("stay READ and CREATE tests", () => {
   let db;
 
   beforeEach(() => {
     db = global.db;
+    jwt.verify.mockReturnValueOnce({});
   });
 
-  it("should render list of stays for a particular apartment", async () => {
+  it("[GET] should render list of stays for a particular apartment", async () => {
+    const mockDb = db.collection("stays");
+    await mockDb.insertMany(mockStays);
+
+    const response = await request(app)
+      .get("/stays/apartments/5d303529e51a310017aa063c")
+      .set("Cookie", "token=valid-token");
+
+    expect(response.status).toBe(200);
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toBe(1);
+    expect(response.body[0].occupantId).toBe("5d2ef34111ead80017be83df");
+  });
+
+  it("[GET] should not render list of stays for a particular apartment if the user is not logged in", async () => {
     const mockDb = db.collection("stays");
     await mockDb.insertMany(mockStays);
 
@@ -22,13 +41,36 @@ describe("stay READ and CREATE tests", () => {
       "/stays/apartments/5d303529e51a310017aa063c"
     );
 
-    expect(response.status).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
-    expect(response.body.length).toBe(1);
-    expect(response.body[0].occupantId).toBe("5d2ef34111ead80017be83df");
+    expect(response.status).toBe(401);
+    expect(jwt.verify).toHaveBeenCalledTimes(0);
   });
 
-  it("should add an occupant's stay to an apartment", async () => {
+  it("[POST] should add an occupant's stay to an apartment", async () => {
+    const mockApartmentDb = db.collection("apartments");
+    await mockApartmentDb.insertMany(mockApartments);
+
+    const mockOccupantDb = db.collection("occupants");
+    await mockOccupantDb.insertMany(mockOccupants);
+
+    const response = await request(app)
+      .post("/stays")
+      .send({
+        apartmentId: mongoose.Types.ObjectId("5d303529e51a310017aa063c"),
+        occupantId: mongoose.Types.ObjectId("5d2ef34111ead80017be83df"),
+        checkInDate: new Date("2020-10-01"),
+        checkOutDate: new Date("2021-10-01"),
+        leaseId: "e83724nht8"
+      })
+      .set("Cookie", "token=valid-token");
+
+    expect(response.status).toBe(201);
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
+    expect(response.text).toBe(
+      "Successfully assigned Tom to China Square Central 01-01"
+    );
+  });
+
+  it("[POST] should not add an occupant's stay to an apartment if the user is not logged in", async () => {
     const mockApartmentDb = db.collection("apartments");
     await mockApartmentDb.insertMany(mockApartments);
 
@@ -44,13 +86,12 @@ describe("stay READ and CREATE tests", () => {
         checkOutDate: new Date("2021-10-01"),
         leaseId: "e83724nht8"
       });
-    expect(response.status).toBe(201);
-    expect(response.text).toBe(
-      "Successfully assigned Tom to China Square Central 01-01"
-    );
+
+    expect(response.status).toBe(401);
+    expect(jwt.verify).toHaveBeenCalledTimes(0);
   });
 
-  it("should return status 500 when apartment is not found", async () => {
+  it("[POST] should return status 400 when apartment is not found", async () => {
     const mockApartmentDb = db.collection("apartments");
     await mockApartmentDb.insertMany(mockApartments);
 
@@ -65,13 +106,15 @@ describe("stay READ and CREATE tests", () => {
         checkInDate: new Date("2020-10-01"),
         checkOutDate: new Date("2021-10-01"),
         leaseId: "e83724nht8"
-      });
+      })
+      .set("Cookie", "token=valid-token");
 
-    expect(response.status).toBe(500);
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
+    expect(response.status).toBe(400);
     expect(response.text).toBe("Apartment not found");
   });
 
-  it("should return status 500 when occupant is not found", async () => {
+  it("[POST] should return status 400 when occupant is not found", async () => {
     const mockApartmentDb = db.collection("apartments");
     await mockApartmentDb.insertMany(mockApartments);
 
@@ -86,30 +129,33 @@ describe("stay READ and CREATE tests", () => {
         checkInDate: new Date("2020-10-01"),
         checkOutDate: new Date("2021-10-01"),
         leaseId: "e83724nht8"
-      });
+      })
+      .set("Cookie", "token=valid-token");
 
-    expect(response.status).toBe(500);
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
+    expect(response.status).toBe(400);
     expect(response.text).toBe("Occupant not found");
   });
 
-  it("should return all stays with a specified apartmentId", async () => {
+  it("[GET] should return all stays with a specified apartmentId", async () => {
     const mockStaysDb = db.collection("stays");
     await mockStaysDb.insertMany(mockStays);
     const mockOccupantDb = db.collection("occupants");
     await mockOccupantDb.insertMany(mockOccupants);
 
-    const response = await request(app).get(
-      "/stays/apartmentProfileHistory/12345"
-    );
+    const response = await request(app)
+      .get("/stays/apartmentProfileHistory/12345")
+      .set("Cookie", "token=valid-token");
 
     expect(response.status).toBe(200);
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
     expect(Array.isArray(response.body)).toBe(true);
     expect(response.body.length).toBe(2);
     expect(response.body[0].occupantId).toBe("5d2ef34111ead80017be5432");
     expect(response.body[1].occupantId).toBe("5d2ef34111ead80017be1234");
   });
 
-  it("should return all stays with occupant names", async () => {
+  it("[GET] should not return all stays with a specified apartmentId if the user is not logged in", async () => {
     const mockStaysDb = db.collection("stays");
     await mockStaysDb.insertMany(mockStays);
     const mockOccupantDb = db.collection("occupants");
@@ -119,7 +165,22 @@ describe("stay READ and CREATE tests", () => {
       "/stays/apartmentProfileHistory/12345"
     );
 
+    expect(response.status).toBe(401);
+    expect(jwt.verify).toHaveBeenCalledTimes(0);
+  });
+
+  it("[GET] should return all stays with occupant names", async () => {
+    const mockStaysDb = db.collection("stays");
+    await mockStaysDb.insertMany(mockStays);
+    const mockOccupantDb = db.collection("occupants");
+    await mockOccupantDb.insertMany(mockOccupants);
+
+    const response = await request(app)
+      .get("/stays/apartmentProfileHistory/12345")
+      .set("Cookie", "token=valid-token");
+
     expect(response.status).toBe(200);
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
     expect(Array.isArray(response.body)).toBe(true);
     expect(response.body.length).toBe(2);
     expect(response.body[0].occupantName).toBe("Tim");
@@ -128,7 +189,23 @@ describe("stay READ and CREATE tests", () => {
     expect(response.body[1].occupantRemarks).toEqual(undefined);
   });
 
-  it("should delete stay based on stayId", async () => {
+  it("[DEL] should delete stay based on stayId", async () => {
+    const mockStaysDb = db.collection("stays");
+    await mockStaysDb.insertMany(mockStays);
+
+    const response = await request(app)
+      .delete("/stays/5d2ef34121ead80017be45df")
+      .set("Cookie", "token=valid-token");
+
+    expect(response.status).toBe(202);
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
+    expect(response.text).toEqual("Successfully removed stay entry");
+    await expect(
+      mockStaysDb.findOne({ _id: "5d2ef34121ead80017be45df" })
+    ).resolves.toBe(null);
+  });
+
+  it("[DEL] should not delete stay based on stayId if the user is not logged in", async () => {
     const mockStaysDb = db.collection("stays");
     await mockStaysDb.insertMany(mockStays);
 
@@ -136,25 +213,24 @@ describe("stay READ and CREATE tests", () => {
       "/stays/5d2ef34121ead80017be45df"
     );
 
-    expect(response.status).toBe(202);
-    expect(response.text).toEqual("Successfully removed stay entry");
-    await expect(
-      mockStaysDb.findOne({ _id: "5d2ef34121ead80017be45df" })
-    ).resolves.toBe(null);
+    expect(response.status).toBe(401);
+    expect(jwt.verify).toHaveBeenCalledTimes(0);
   });
 
-  it("should not delete stay when wrong stayId is provided", async () => {
+  it("[DEL] should not delete stay when wrong stayId is provided", async () => {
     const mockStaysDb = db.collection("stays");
     await mockStaysDb.insertMany(mockStays);
 
-    const response = await request(app).delete(
-      "/stays/5d2ef34131ead80017be47df"
-    );
+    const response = await request(app)
+      .delete("/stays/5d2ef34131ead80017be47df")
+      .set("Cookie", "token=valid-token");
+
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
     expect(response.status).toBe(500);
     expect(response.text).toEqual("Stay entry not found");
   });
 
-  describe("get all stays", () => {
+  describe("[GET] get all stays", () => {
     const mockStays = [
       {
         _id: mongoose.Types.ObjectId("5d2ef34121ead80017be45df"),
@@ -222,12 +298,16 @@ describe("stay READ and CREATE tests", () => {
     beforeEach(async () => {
       await db.collection("stays").insertMany(mockStays);
       await db.collection("apartments").insertMany(mockApartments);
+      jwt.verify.mockReturnValueOnce({});
     });
 
-    it("should get all stays with populated apartment details", async () => {
-      const res = await request(app).get("/stays");
+    it("[GET] should get all stays with populated apartment details", async () => {
+      const res = await request(app)
+        .get("/stays")
+        .set("Cookie", "token=valid-token");
 
       expect(res.status).toBe(200);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
       expect(res.headers["content-type"]).toBe(
         "application/json; charset=utf-8"
       );
@@ -236,11 +316,21 @@ describe("stay READ and CREATE tests", () => {
       expect(stays.length).toEqual(2);
     });
 
-    it("should get occupant's stays with China Square Central as apartment name", async () => {
+    it("[GET] should not get all stays if the user is not logged in", async () => {
+      const res = await request(app).get("/stays");
+
+      expect(res.status).toBe(401);
+      expect(jwt.verify).toHaveBeenCalledTimes(0);
+    });
+
+    it("[GET] should get occupant's stays with China Square Central as apartment name", async () => {
       const occupantId = "5d2ef34111ead80017be83df";
-      const res = await request(app).get(`/stays?occupantId=${occupantId}`);
+      const res = await request(app)
+        .get(`/stays?occupantId=${occupantId}`)
+        .set("Cookie", "token=valid-token");
 
       expect(res.status).toBe(200);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
       expect(res.headers["content-type"]).toBe(
         "application/json; charset=utf-8"
       );
@@ -257,11 +347,14 @@ describe("stay READ and CREATE tests", () => {
       ]);
     });
 
-    it("should get occupant's stays with Fancy Penthouse as apartment name", async () => {
+    it("[GET] should get occupant's stays with Fancy Penthouse as apartment name", async () => {
       const occupantId = "ABCef34111ead80017be83df";
-      const res = await request(app).get(`/stays?occupantId=${occupantId}`);
+      const res = await request(app)
+        .get(`/stays?occupantId=${occupantId}`)
+        .set("Cookie", "token=valid-token");
 
       expect(res.status).toBe(200);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
       expect(res.headers["content-type"]).toBe(
         "application/json; charset=utf-8"
       );

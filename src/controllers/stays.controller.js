@@ -53,6 +53,12 @@ const addStay = async (req, res, next) => {
         `Successfully assigned ${foundOccupant.name} to ${foundApartment.name}`
       );
   } catch (err) {
+    if (
+      err.message === "Apartment not found" ||
+      err.message === "Occupant not found"
+    ) {
+      err.statusCode = 400;
+    }
     return next(err);
   }
 };
