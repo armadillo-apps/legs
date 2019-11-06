@@ -46,4 +46,13 @@ const addUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, loginUser, logoutUser, addUser };
+const deleteUser = async (req, res, next) => {
+  try {
+    await UserModel.findOneAndDelete({ username: req.params.userid });
+    res.send("Successfully deleted user");
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getUsers, loginUser, logoutUser, addUser, deleteUser };

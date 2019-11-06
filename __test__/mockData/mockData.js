@@ -124,6 +124,7 @@ const hashPassword = password => {
 
 module.exports.mockUsers = [
   {
+    _id: mongoose.Types.ObjectId("5dc26ecc4c33e04dc232c256"),
     email: "elson@thoughtworks.com",
     password: hashPassword("pass1234")
   },

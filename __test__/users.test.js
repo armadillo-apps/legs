@@ -1,7 +1,7 @@
 const app = require("../src/app");
 const request = require("supertest");
 const { mockUsers } = require("./mockData/mockData");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const User = require("../src/models/User.model");
 
 jest.mock("jsonwebtoken");
@@ -14,15 +14,28 @@ describe("users CRUD tests", () => {
   });
 
   describe("[GET] users/", () => {
-    it("should return a list of users", async () => {
+    it("should return a list of users if the admin is logged in", async () => {
+      const userDbInstance = db.collection("users");
+      await userDbInstance.insertMany(mockUsers);
+
+      const response = await request(app)
+        .get("/users")
+        .set("Cookie", "token=valid-token");
+
+      expect(response.status).toEqual(200);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
+      expect(Array.isArray(response.body)).toEqual(true);
+      expect(response.body.length).toEqual(2);
+    });
+
+    it("should not return a list of users if the admin is not logged in", async () => {
       const userDbInstance = db.collection("users");
       await userDbInstance.insertMany(mockUsers);
 
       const response = await request(app).get("/users");
 
-      expect(response.status).toEqual(200);
-      expect(Array.isArray(response.body)).toEqual(true);
-      expect(response.body.length).toEqual(2);
+      expect(response.status).toEqual(401);
+      expect(jwt.verify).toHaveBeenCalledTimes(0);
     });
 
     describe("[POST] users/login", () => {
@@ -82,6 +95,32 @@ describe("users CRUD tests", () => {
         const response = await request(app).post("/users/logout");
 
         expect(response.status).toEqual(200);
+      });
+    });
+
+    describe("[DEL] users/:userid", () => {
+      it("should allow a logged in admin to delete a user by its id", async () => {
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+
+        const response = await request(app)
+          .delete("/users/5dc26ecc4c33e04dc232c256")
+          .set("Cookie", "token=valid-token");
+
+        expect(response.status).toEqual(200);
+        expect(jwt.verify).toHaveBeenCalledTimes(1);
+      });
+
+      it("should not allow an admin who is not logged in delete a user by its id", async () => {
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+
+        const response = await request(app).delete(
+          "/users/5dc26ecc4c33e04dc232c256"
+        );
+
+        expect(response.status).toEqual(401);
+        expect(jwt.verify).toHaveBeenCalledTimes(0);
       });
     });
   });
