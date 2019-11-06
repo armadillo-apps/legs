@@ -6,7 +6,8 @@ const getOccupant = async (req, res, next) => {
     res.status(200).send(foundOccupant);
   } catch (err) {
     const error = new Error("Unable to get occupant data");
-    return await res.status(400).json(error.message);
+    await res.status(400).json(error.message);
+    next();
   }
 };
 
@@ -19,7 +20,8 @@ const createOccupant = async (req, res, next) => {
       .send(`Successfully added new occupant: ${createdOccupant.name}`);
   } catch (err) {
     const error = new Error("Unable to create new occupant");
-    return await res.status(400).json(error.message);
+    await res.status(400).json(error.message);
+    next();
   }
 };
 
@@ -47,7 +49,8 @@ const updateOccupant = async (req, res, next) => {
       .send(`Successfully updated occupant: ${updatedOccupant.name}`);
   } catch (err) {
     const error = new Error("Unable to update occupant");
-    return await res.status(400).json(error.message);
+    await res.status(400).json(error.message);
+    next();
   }
 };
 

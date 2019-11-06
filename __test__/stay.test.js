@@ -138,7 +138,7 @@ describe("stay READ and CREATE tests", () => {
 
     expect(response.status).toBe(202);
     expect(response.text).toEqual("Successfully removed stay entry");
-    expect(
+    await expect(
       mockStaysDb.findOne({ _id: "5d2ef34121ead80017be45df" })
     ).resolves.toBe(null);
   });

@@ -55,7 +55,8 @@ const updateApartment = async (req, res, next) => {
       .send(`Successfully updated apartment: ${updatedApartment.name}`);
   } catch (err) {
     const error = new Error("Unable to update apartment");
-    return await res.status(400).json(error.message);
+    await res.status(400).json(error.message);
+    next();
   }
 };
 

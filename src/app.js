@@ -55,6 +55,7 @@ app.use((err, req, res, next) => {
     err.message = "Something unexpected happened.";
   }
   res.status(err.statusCode).send(err.message);
+  next();
 });
 
 module.exports = app;
