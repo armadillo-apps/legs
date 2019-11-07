@@ -9,7 +9,7 @@ const apartmentSchema = new mongoose.Schema({
     min: [0, "Capacity cannot be less than 0"],
     required: true
   },
-  status: { type: String, default: "inactive" },
+  status: { type: String, default: "Active" },
   leases: [
     {
       leaseStart: { type: Date, required: true },
