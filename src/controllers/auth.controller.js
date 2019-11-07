@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const authController = (req, res, next) => {
+const authenticationController = (req, res, next) => {
   try {
     if (!req.cookies.token) {
       throw new Error("You are not authorized!");
@@ -12,4 +12,4 @@ const authController = (req, res, next) => {
   }
 };
 
-module.exports = authController;
+module.exports = authenticationController;

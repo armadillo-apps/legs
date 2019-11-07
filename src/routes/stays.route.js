@@ -1,20 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const Ctrl = require("../controllers/stays.controller");
-const authController = require("../controllers/auth.controller");
+const authenticationController = require("../controllers/auth.controller");
 
-router.get("/", authController, Ctrl.getAllStays);
+router.get("/", authenticationController, Ctrl.getAllStays);
 
-router.get("/apartments/:apartmentId", authController, Ctrl.getStayList);
+router.get(
+  "/apartments/:apartmentId",
+  authenticationController,
+  Ctrl.getStayList
+);
 
 router.get(
   "/apartmentProfileHistory/:apartmentId",
-  authController,
+  authenticationController,
   Ctrl.getApartmentProfileHistory
 );
 
-router.post("/", authController, Ctrl.addStay);
+router.post("/", authenticationController, Ctrl.addStay);
 
-router.delete("/:stayId", authController, Ctrl.deleteStay);
+router.delete("/:stayId", authenticationController, Ctrl.deleteStay);
 
 module.exports = router;
