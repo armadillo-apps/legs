@@ -18,12 +18,13 @@ const apartmentSchema = new mongoose.Schema({
         type: Number,
         min: [0, "Monthly rent cannot be less than 0"],
         required: true
-      }
+      },
+      currency: { type: String, required: true }
     }
   ],
   landlord: {
-    name: { type: String },
-    accountNumber: { type: String }
+    name: { type: String, required: true },
+    accountNumber: { type: String, required: true }
   },
   country: { type: String },
   remarks: { type: String }
