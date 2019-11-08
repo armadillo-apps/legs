@@ -62,7 +62,8 @@ describe("apartment CRUD tests", () => {
           {
             leaseStart: "2011-01-01",
             leaseEnd: "2012-01-01",
-            monthlyRent: 5000
+            monthlyRent: 5000,
+            currency: "sgd"
           }
         ],
         landlord: {

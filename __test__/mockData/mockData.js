@@ -12,7 +12,8 @@ module.exports.mockApartments = [
       {
         leaseStart: new Date("2018-01-01"),
         leaseEnd: new Date("2019-01-01"),
-        monthlyRent: 5000
+        monthlyRent: 5000,
+        currency: "sgd"
       }
     ],
     landlord: {
@@ -31,7 +32,8 @@ module.exports.mockApartments = [
       {
         leaseStart: new Date("2017-10-01"),
         leaseEnd: new Date("2018-10-01"),
-        monthlyRent: 6000
+        monthlyRent: 6000,
+        currency: "sgd"
       }
     ],
     landlord: {
