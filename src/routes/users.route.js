@@ -6,7 +6,7 @@ const auth = require("../controllers/auth.controller");
 router.get("/", auth.authenticationController, Ctrl.getUsers);
 router.post("/login", Ctrl.loginUser);
 router.post("/logout", Ctrl.logoutUser);
-router.post("/new", auth.authorisationController, Ctrl.addUser);
+router.post("/new", Ctrl.addUser);
 router.delete("/:userid", auth.authenticationController, Ctrl.deleteUser);
 router.post("/:userid", auth.authorisationController, Ctrl.editUserRole);
 
