@@ -3,6 +3,7 @@ const request = require("supertest");
 const { mockUsers } = require("./mockData/mockData");
 const jwt = require("jsonwebtoken");
 const User = require("../src/models/User.model");
+const auth = require("../src/controllers/auth.controller");
 
 jest.mock("jsonwebtoken");
 
@@ -63,7 +64,28 @@ describe("users CRUD tests", () => {
     });
 
     describe("[POST] users/new", () => {
-      it("should allow a new user to sign up", async () => {
+      it("should not allow non-admins to add a new user to the system", async () => {
+        jest.mock("../src/controllers/auth.controller");
+        jwt.verify.mockReturnValueOnce({ email: "mabel@thoughtworks.com" });
+        auth.userRole = jest
+          .fn()
+          .mockReturnValueOnce(Promise.resolve("manager"));
+
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+
+        const response = await request(app)
+          .post("/users/new")
+          .send({ email: "jesstern@thoughtworks.com", password: "pass1234" });
+
+        expect(response.status).toEqual(401);
+      });
+
+      it("should allow admins to add a new user to the system", async () => {
+        jest.mock("../src/controllers/auth.controller");
+        jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });
+        auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
+
         const userDbInstance = db.collection("users");
         await userDbInstance.insertMany(mockUsers);
 
@@ -78,6 +100,9 @@ describe("users CRUD tests", () => {
         await User.ensureIndexes();
         const userDbInstance = db.collection("users");
         await userDbInstance.insertMany(mockUsers);
+        jest.mock("../src/controllers/auth.controller");
+        jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });
+        auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
 
         const response = await request(app)
           .post("/users/new")
@@ -121,6 +146,39 @@ describe("users CRUD tests", () => {
 
         expect(response.status).toEqual(401);
         expect(jwt.verify).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe("[POST] users/:userid", () => {
+      it("should allow a logged in admin to edit a user's role by its id", async () => {
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+        jest.mock("../src/controllers/auth.controller");
+        jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });
+        auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
+
+        const response = await request(app)
+          .post("/users/5dc26ecc4c33e04dc232c845")
+          .set("Cookie", "token=valid-token")
+          .send({ role: "admin" });
+
+        expect(response.status).toEqual(200);
+        expect(response.body.nModified).toEqual(1);
+      });
+
+      it("should not allow a logged in admin to edit a user's role when the id is invalid", async () => {
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+        jest.mock("../src/controllers/auth.controller");
+        jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });
+        auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
+
+        const response = await request(app)
+          .post("/users/5dc26ecc4c33e04dc232c84522")
+          .set("Cookie", "token=valid-token")
+          .send({ role: "admin" });
+
+        expect(response.status).toEqual(500);
       });
     });
   });

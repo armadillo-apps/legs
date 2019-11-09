@@ -128,11 +128,14 @@ module.exports.mockUsers = [
   {
     _id: mongoose.Types.ObjectId("5dc26ecc4c33e04dc232c256"),
     email: "elson@thoughtworks.com",
-    password: hashPassword("pass1234")
+    password: hashPassword("pass1234"),
+    role: "admin"
   },
   {
+    _id: mongoose.Types.ObjectId("5dc26ecc4c33e04dc232c845"),
     email: "mabel@thoughtworks.com",
-    password: hashPassword("pass1234")
+    password: hashPassword("pass1234"),
+    role: "manager"
   }
 ];
 
