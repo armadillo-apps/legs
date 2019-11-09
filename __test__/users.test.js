@@ -78,7 +78,7 @@ describe("users CRUD tests", () => {
 
         const response = await request(app)
           .post("/users/new")
-          .send({ email: "jesstern@thoughtworks.com", password: "pass1234" });
+          .send({ email: "john@thoughtworks.com", password: "pass1234" });
 
         expect(response.status).toEqual(401);
       });
