@@ -17,8 +17,6 @@
     "ecmaVersion": 2018
   },
   "rules": {
-    "jest/valid-expect": "warn",
-    "no-unused-vars": "warn",
     "prettier/prettier": "error"
   }
 }
