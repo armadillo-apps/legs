@@ -19,7 +19,7 @@ const loginUser = async (req, res, next) => {
     if (!passwordCheck) {
       throw new Error("Login was unsuccessful");
     }
-    const token = jwt.sign({ email: user.email }, "secretkey");
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
     res.cookie("token", token);
     res.send("You are logged in");
   } catch (err) {

@@ -6,7 +6,7 @@ const authenticationController = async (req, res, next) => {
     if (!req.cookies.token) {
       throw new Error("You are not authorized!");
     }
-    req.user = jwt.verify(req.cookies.token, "secretkey");
+    req.user = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
     next();
   } catch (err) {
     res.status(401).end("You are not authorized!");
