@@ -93,7 +93,11 @@ describe("users CRUD tests", () => {
 
         const response = await request(app)
           .post("/users/new")
-          .send({ email: "jesstern@thoughtworks.com", password: "pass1234" });
+          .send({
+            email: "jesstern@thoughtworks.com",
+            password: "pass1234",
+            role: "admin"
+          });
 
         expect(response.status).toEqual(200);
       });
@@ -108,7 +112,11 @@ describe("users CRUD tests", () => {
 
         const response = await request(app)
           .post("/users/new")
-          .send({ email: "elson@thoughtworks.com", password: "pass1234" });
+          .send({
+            email: "elson@thoughtworks.com",
+            password: "pass1234",
+            role: "manager"
+          });
 
         expect(response.status).toBe(400);
       });
