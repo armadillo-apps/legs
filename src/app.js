@@ -28,11 +28,18 @@ const corsOptions = {
 
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
-    if (req.header("x-forwarded-proto") !== "https")
+    if (req.headers["x-forwarded-proto"] !== "https") {
       res.redirect(`https://${req.header("host")}${req.url}`);
-    else next();
+    } else {
+      res.setHeader(
+        "strict-transport-security",
+        "max-age=31536000; includeSubDomains; preload"
+      );
+      next();
+    }
   });
 }
+
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
