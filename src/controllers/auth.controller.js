@@ -22,7 +22,7 @@ const authorisationController = async (req, res, next) => {
   try {
     console.log(req.cookies.token);
     const allowedRoles = "admin";
-    req.user = jwt.verify(req.cookies.token, "secretkey");
+    req.user = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
     const email = req.user.email;
     const role = await userRole(email);
     if (role !== allowedRoles) {
