@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const mongoose = require("mongoose");
 const dbURI =
   process.env.MONGODB_URI ||

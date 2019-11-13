@@ -17,6 +17,9 @@
     "ecmaVersion": 2018
   },
   "rules": {
+    "no-console": 1,
+    "spaced-comment": 1,
+    "jest/no-disabled-tests": 1,
     "prettier/prettier": "error"
   }
 }
