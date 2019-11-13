@@ -49,7 +49,8 @@ const addUser = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
   try {
     await UserModel.findOneAndDelete({ _id: req.params.userid });
-    res.send("Successfully deleted user");
+    const allUsers = await UserModel.find();
+    res.send(allUsers);
   } catch (err) {
     next(err);
   }
