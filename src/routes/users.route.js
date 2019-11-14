@@ -8,6 +8,6 @@ router.post("/login", Ctrl.loginUser);
 router.post("/logout", Ctrl.logoutUser);
 router.post("/new", Ctrl.addUser);
 router.delete("/:userid", auth.authenticationController, Ctrl.deleteUser);
-router.post("/:userid", auth.authorisationController, Ctrl.editUserRole);
+router.patch("/:userid", auth.authorisationController, Ctrl.editUserRole);
 
 module.exports = router;

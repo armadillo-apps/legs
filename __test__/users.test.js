@@ -171,7 +171,7 @@ describe("users CRUD tests", () => {
         await userDbInstance.insertMany(mockUsers);
 
         const response = await request(app)
-          .post("/users/5dc26ecc4c33e04dc232c845")
+          .patch("/users/5dc26ecc4c33e04dc232c845")
           .set("Cookie", "token=valid-token")
           .send({ role: "admin" });
 
@@ -186,7 +186,7 @@ describe("users CRUD tests", () => {
         auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
 
         const response = await request(app)
-          .post("/users/5dc26ecc4c33e04dc232c845")
+          .patch("/users/5dc26ecc4c33e04dc232c845")
           .set("Cookie", "token=valid-token")
           .send({ role: "admin" });
 
@@ -202,7 +202,7 @@ describe("users CRUD tests", () => {
         auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
 
         const response = await request(app)
-          .post("/users/5dc26ecc4c33e04dc232c84522")
+          .patch("/users/5dc26ecc4c33e04dc232c84522")
           .set("Cookie", "token=valid-token")
           .send({ role: "admin" });
 
