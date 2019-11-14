@@ -11,7 +11,8 @@
     "test": "jest --runInBand __test__",
     "test:watch": "jest --runInBand --watch __test__",
     "test:coverage": "jest --runInBand --coverage __test__",
-    "lint": "eslint src __test__ --max-warnings 3"
+    "lint": "eslint src __test__ --max-warnings 3",
+    "mongo:migrate": "node ./node_modules/migrate-mongo/bin/migrate-mongo.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "migrate-mongo": "^7.0.1",
     "mongoose": "^5.6.4",
     "morgan": "^1.9.1"
   },
