@@ -64,7 +64,7 @@ describe("users CRUD tests", () => {
     });
 
     describe("[POST] users/new", () => {
-      //Skipped for now because new user route cannot be protected yet,
+      // Skipped for now because new user route cannot be protected yet,
       // as cypress tests depends on the route to seed a test user
       it.skip("should not allow non-admins to add a new user to the system", async () => {
         jest.mock("../src/controllers/auth.controller");
@@ -207,6 +207,43 @@ describe("users CRUD tests", () => {
           .send({ role: "admin" });
 
         expect(response.status).toEqual(500);
+      });
+    });
+    describe("[PATCH] users/password/:userid", () => {
+      it("should allow any user to change their own password", async () => {
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+
+        const response = await request(app)
+          .patch("/users/password/5dc26ecc4c33e04dc232c845")
+          .set("Cookie", "token=valid-token")
+          .send({ password: "pass4321" });
+
+        expect(response.status).toEqual(200);
+        expect(response.body.nModified).toEqual(1);
+      });
+
+      it("should not allow a user who is not logged in to change their own password", async () => {
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+
+        const response = await request(app)
+          .patch("/users/password/5dc26ecc4c33e04dc232c845")
+          .send({ password: "pass4321" });
+
+        expect(response.status).toEqual(401);
+      });
+
+      it("should not allow an invalid user to change password", async () => {
+        const userDbInstance = db.collection("users");
+        await userDbInstance.insertMany(mockUsers);
+
+        const response = await request(app)
+          .patch("/users/password/5dc26ecc4c33e04dc232c")
+          .set("Cookie", "token=valid-token")
+          .send({ password: "pass4321" });
+
+        expect(response.status).toEqual(404);
       });
     });
   });

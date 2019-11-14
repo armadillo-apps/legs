@@ -72,11 +72,30 @@ const editUserRole = async (req, res, next) => {
   }
 };
 
+const editUserPassword = async (req, res, next) => {
+  const userId = req.params.userid;
+  const newPassword = req.body.password;
+  const rounds = 10;
+  const hashedPassword = await bcrypt.hash(newPassword, rounds);
+  try {
+    const updatePassword = await UserModel.updateOne(
+      { _id: userId },
+      { password: hashedPassword },
+      { safe: true, multi: true, new: true }
+    );
+    res.send(updatePassword);
+  } catch (error) {
+    error.statusCode = 404;
+    next(error);
+  }
+};
+
 module.exports = {
   getUsers,
   loginUser,
   logoutUser,
   addUser,
   deleteUser,
-  editUserRole
+  editUserRole,
+  editUserPassword
 };

@@ -9,5 +9,10 @@ router.post("/logout", Ctrl.logoutUser);
 router.post("/new", Ctrl.addUser);
 router.delete("/:userid", auth.authenticationController, Ctrl.deleteUser);
 router.patch("/:userid", auth.authorisationController, Ctrl.editUserRole);
+router.patch(
+  "/password/:userid",
+  auth.authenticationController,
+  Ctrl.editUserPassword
+);
 
 module.exports = router;
