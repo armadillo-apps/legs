@@ -60,12 +60,13 @@ const editUserRole = async (req, res, next) => {
   const userId = req.params.userid;
   const newRole = req.body.role;
   try {
-    const updateRole = await UserModel.updateOne(
+    await UserModel.updateOne(
       { _id: userId },
       { role: newRole },
       { safe: true, multi: true, new: true }
     );
-    res.send(updateRole);
+    const allUsers = await UserModel.find();
+    res.send(allUsers);
   } catch (error) {
     error.status = 404;
     next(error);

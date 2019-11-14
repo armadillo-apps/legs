@@ -191,7 +191,7 @@ describe("users CRUD tests", () => {
           .send({ role: "admin" });
 
         expect(response.status).toEqual(200);
-        expect(response.body.nModified).toEqual(1);
+        expect(response.body[1].role).toEqual("admin");
       });
 
       it("should not allow a logged in admin to edit a user's role when the id is invalid", async () => {
