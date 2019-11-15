@@ -39,7 +39,7 @@ describe("users CRUD tests", () => {
       const response = await request(app).get("/users");
 
       expect(response.status).toEqual(401);
-      expect(jwt.verify).toHaveBeenCalledTimes(0);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
     });
 
     describe("[POST] users/login", () => {
@@ -138,6 +138,9 @@ describe("users CRUD tests", () => {
       it("should allow a logged in admin to delete a user by its id", async () => {
         const userDbInstance = db.collection("users");
         await userDbInstance.insertMany(mockUsers);
+        jest.mock("../src/controllers/auth.controller");
+        jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });
+        auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
 
         const response = await request(app)
           .delete("/users/5dc26ecc4c33e04dc232c256")
@@ -150,13 +153,18 @@ describe("users CRUD tests", () => {
       it("should not allow an admin who is not logged in delete a user by its id", async () => {
         const userDbInstance = db.collection("users");
         await userDbInstance.insertMany(mockUsers);
+        jest.mock("../src/controllers/auth.controller");
+        jwt.verify.mockReturnValueOnce({ email: "mabel@thoughtworks.com" });
+        auth.userRole = jest
+          .fn()
+          .mockReturnValueOnce(Promise.resolve("manager"));
 
         const response = await request(app).delete(
           "/users/5dc26ecc4c33e04dc232c256"
         );
 
         expect(response.status).toEqual(401);
-        expect(jwt.verify).toHaveBeenCalledTimes(0);
+        expect(jwt.verify).toHaveBeenCalledTimes(1);
       });
     });
 
