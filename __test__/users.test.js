@@ -67,9 +67,7 @@ describe("users CRUD tests", () => {
     });
 
     describe("[POST] users/new", () => {
-      // Skipped for now because new user route cannot be protected yet,
-      // as cypress tests depends on the route to seed a test user
-      it.skip("should not allow non-admins to add a new user to the system", async () => {
+      it("should not allow non-admins to add a new user to the system", async () => {
         jest.mock("../src/controllers/auth.controller");
         jwt.verify.mockReturnValueOnce({ email: "mabel@thoughtworks.com" });
         auth.userRole = jest
