@@ -3,11 +3,11 @@
 
 ## Files you need to create
 
-Create a `.env` and ensure that the `.env` file is in .gitignore. Get the secret key from the `test-armadillo-legs` app from Heroku
+Create a `.env` and ensure that the `.env` file is in .gitignore. The JWT secret key from the `test-armadillo-legs` app in Heroku currently matches what is hashed in the mongo command in the `arms` circleci dropDb job. If it is replaced, then the hashed password in the mongo command must also be changed to match it.
 
 ```.env
 {
-  JWT_SECRET_KEY=<GET_SECRET_KEY_FROM_HEROKU>
+  JWT_SECRET_KEY=<Generate your own>
 }
 ```
 
