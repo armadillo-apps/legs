@@ -18,13 +18,16 @@ describe("users CRUD tests", () => {
     it("should return a list of users if the admin is logged in", async () => {
       const userDbInstance = db.collection("users");
       await userDbInstance.insertMany(mockUsers);
+      jest.mock("../src/controllers/auth.controller");
+      jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });
+      auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
 
       const response = await request(app)
         .get("/users")
         .set("Cookie", "token=valid-token");
 
-      expect(response.status).toEqual(200);
       expect(jwt.verify).toHaveBeenCalledTimes(1);
+      expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
       expect(response.body.length).toEqual(2);
     });
@@ -36,7 +39,7 @@ describe("users CRUD tests", () => {
       const response = await request(app).get("/users");
 
       expect(response.status).toEqual(401);
-      expect(jwt.verify).toHaveBeenCalledTimes(0);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
     });
 
     describe("[POST] users/login", () => {
