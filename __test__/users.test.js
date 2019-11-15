@@ -39,7 +39,7 @@ describe("users CRUD tests", () => {
       const response = await request(app).get("/users");
 
       expect(response.status).toEqual(401);
-      expect(jwt.verify).toHaveBeenCalledTimes(1);
+      expect(jwt.verify).toHaveBeenCalledTimes(0);
     });
 
     describe("[POST] users/login", () => {
