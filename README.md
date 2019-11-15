@@ -3,11 +3,11 @@
 
 ## Files you need to create
 
-Create a `.env` and ensure that the `.env` file is in .gitignore. Fill in a random generated secret key after the equals
+Create a `.env` and ensure that the `.env` file is in .gitignore. Get the secret key from the `test-armadillo-legs` app from Heroku
 
 ```.env
 {
-  JWT_SECRET_KEY=<PUT_YOUR_OWN_KEY>
+  JWT_SECRET_KEY=<GET_SECRET_KEY_FROM_HEROKU>
 }
 ```
 
