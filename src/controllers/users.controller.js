@@ -21,7 +21,7 @@ const loginUser = async (req, res, next) => {
     }
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
     res.cookie("token", token);
-    res.send("You are logged in");
+    res.send(user.role);
   } catch (err) {
     err.statusCode = 400;
     next(err);
