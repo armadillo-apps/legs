@@ -9,6 +9,6 @@ const occupantSchema = new mongoose.Schema({
   status: { type: String, default: "inactive" }
 });
 
-const OccupantModel = mongoose.model("occupant", occupantSchema);
+const OccupantModel = mongoose.model("Occupant", occupantSchema);
 
 module.exports = OccupantModel;

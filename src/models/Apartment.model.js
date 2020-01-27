@@ -30,6 +30,6 @@ const apartmentSchema = new mongoose.Schema({
   remarks: { type: String }
 });
 
-const ApartmentModel = mongoose.model("apartment", apartmentSchema);
+const ApartmentModel = mongoose.model("Apartment", apartmentSchema);
 
 module.exports = ApartmentModel;
