@@ -77,7 +77,7 @@ describe("apartment CRUD tests", () => {
         .set("Cookie", "token=valid-token");
       expect(response.status).toEqual(500);
       expect(response.text).toEqual(
-        "apartment validation failed: bedrooms: Bedrooms cannot be less than 0"
+        "Apartment validation failed: bedrooms: Bedrooms cannot be less than 0"
       );
       expect(jwt.verify).toHaveBeenCalledTimes(1);
     });
