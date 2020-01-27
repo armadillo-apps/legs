@@ -84,12 +84,14 @@ workflows:
             - unitTest
             - wakeTestServer
       - holdDemo:
+          type: approval
           requires:
             - deployTest
       - deployDemo:
           requires:
             - holdDemo
       - holdProd:
+          type: approval
           requires:
             - deployDemo
       - deployProd:
