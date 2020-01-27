@@ -41,7 +41,7 @@ app.use(express.json());
 app.use(morgan("tiny"));
 
 app.get("/", (req, res) => {
-  res.status(200).send("Hello World");
+  res.status(200).send("Legs API");
 });
 
 app.use("/occupants", occupantRouter);
