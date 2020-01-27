@@ -86,9 +86,15 @@ workflows:
       - deployTest:
           requires:
             - unitTest
-      - deployDemo:
+      - holdDemo:
           requires:
             - deployTest
-      - deployProd:
+      - deployDemo:
+          requires:
+            - holdDemo
+      - holdProd:
           requires:
             - deployDemo
+      - deployProd:
+          requires:
+            - holdProd
