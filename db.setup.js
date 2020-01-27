@@ -13,7 +13,7 @@ beforeAll(async () => {
     useNewUrlParser: true
   });
   db = await connection.db(dbName);
-  global.db = db;
+  global.db = db; // eslint-disable-line require-atomic-updates
 });
 
 afterAll(async () => {
