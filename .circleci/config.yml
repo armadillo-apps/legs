@@ -1,5 +1,14 @@
 version: 2
 jobs:
+  wakeTestServer:
+    docker:
+      - image: circleci/node:12.6.0-browsers
+    environment:
+      HEROKU_APP_NAME: test-armadillo-legs
+    steps:
+      - run:
+          name: Ping test server
+          command: curl -silent https://$HEROKU_APP_NAME.herokuapp.com/
   unitTest:
     docker:
       - image: circleci/node:12.6.0-browsers
@@ -64,28 +73,16 @@ jobs:
       - run:
           name: Ping production deployment
           command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com/
-  pingAll:
-    docker:
-      - image: circleci/node:12.6.0-browsers
-    steps:
-      - run:
-          name: Ping test server
-          command: curl -s https://test-armadillo-legs.herokuapp.com/
-      - run:
-          name: Ping demo server
-          command: curl -s https://demo-armadillo-legs.herokuapp.com/
-      - run:
-          name: Ping production server
-          command: curl -s https://armadillo-legs.herokuapp.com/
 workflows:
   version: 2
   testAndDeploy:
     jobs:
-      - pingAll
+      - wakeTestServer
       - unitTest
       - deployTest:
           requires:
             - unitTest
+            - wakeTestServer
       - holdDemo:
           requires:
             - deployTest
