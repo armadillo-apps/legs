@@ -10,6 +10,7 @@ const apartmentRouter = require("./routes/apartments.route");
 const stayRouter = require("./routes/stays.route");
 const userRouter = require("./routes/users.route");
 const cors = require("cors");
+const configureSecurityMiddleware = require("./middleware/security");
 
 const corsOptions = {
   origin: [process.env.FRONTEND_URL],
@@ -17,6 +18,8 @@ const corsOptions = {
   optionsSuccessStatus: 204,
   credentials: true
 };
+
+configureSecurityMiddleware(app);
 
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
