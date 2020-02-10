@@ -2,6 +2,16 @@ const UserModel = require("../models/User.model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const getUser = async (req, res, next) => {
+  try {
+    const { email, role } = res.locals.user;
+    res.status(200).json({ email, role });
+  } catch (err) {
+    err.statusCode = 401;
+    next(err);
+  }
+};
+
 const getUsers = async (req, res, next) => {
   try {
     const allUsers = await UserModel.find();
@@ -21,7 +31,7 @@ const loginUser = async (req, res, next) => {
     }
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
     res.cookie("token", token);
-    res.send(user.role);
+    res.status(200).json({ email: user.email, role: user.role });
   } catch (err) {
     err.statusCode = 400;
     next(err);
@@ -92,6 +102,7 @@ const editUserPassword = async (req, res, next) => {
 };
 
 module.exports = {
+  getUser,
   getUsers,
   loginUser,
   logoutUser,
