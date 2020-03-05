@@ -263,10 +263,22 @@ describe("users CRUD tests", () => {
       const response = await request(app)
         .patch("/users/password/5dc26ecc4c33e04dc232c845")
         .set("Cookie", "token=valid-token")
-        .send({ password: "pass4321" });
+        .send({ password: "pass1234", newPassword: "pass4321" });
 
       expect(response.status).toEqual(200);
       expect(response.body.nModified).toEqual(1);
+    });
+
+    it("should not allow any user to change their own password if existing password is incorrect", async () => {
+      const userDbInstance = db.collection("users");
+      await userDbInstance.insertMany(mockUsers);
+
+      const response = await request(app)
+        .patch("/users/password/5dc26ecc4c33e04dc232c845")
+        .set("Cookie", "token=valid-token")
+        .send({ password: "oldPassword", newPassword: "newPassword1234" });
+
+      expect(response.status).toEqual(404);
     });
 
     it("should not allow a user who is not logged in to change their own password", async () => {
@@ -275,7 +287,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .patch("/users/password/5dc26ecc4c33e04dc232c845")
-        .send({ password: "pass4321" });
+        .send({ password: "pass1234", newPassword: "pass4321" });
 
       expect(response.status).toEqual(401);
     });
@@ -287,7 +299,7 @@ describe("users CRUD tests", () => {
       const response = await request(app)
         .patch("/users/password/5dc26ecc4c33e04dc232c")
         .set("Cookie", "token=valid-token")
-        .send({ password: "pass4321" });
+        .send({ password: "pass1234", newPassword: "pass4321" });
 
       expect(response.status).toEqual(404);
     });

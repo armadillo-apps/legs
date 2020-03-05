@@ -85,18 +85,28 @@ const editUserRole = async (req, res, next) => {
 
 const editUserPassword = async (req, res, next) => {
   const userId = req.params.userid;
-  const newPassword = req.body.password;
+
+  const password = req.body.password;
+  const newPassword = req.body.newPassword;
+
   const rounds = 10;
-  const hashedPassword = await bcrypt.hash(newPassword, rounds);
+  const hashedNewPassword = await bcrypt.hash(newPassword, rounds);
   try {
+    const user = await UserModel.findById(userId);
+
+    const passwordCheck = await bcrypt.compare(password, user.password);
+    if (!passwordCheck) {
+      throw new Error("Incorrect existing password");
+    }
+
     const updatePassword = await UserModel.updateOne(
       { _id: userId },
-      { password: hashedPassword },
+      { password: hashedNewPassword },
       { safe: true, multi: true, new: true }
     );
     res.send(updatePassword);
   } catch (error) {
-    error.statusCode = 404;
+    res.status(404).send({ error: error.toString() });
     next(error);
   }
 };
