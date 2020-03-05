@@ -261,7 +261,7 @@ describe("users CRUD tests", () => {
       await userDbInstance.insertMany(mockUsers);
 
       const response = await request(app)
-        .patch("/users/password/5dc26ecc4c33e04dc232c845")
+        .patch("/users/password/mabel@thoughtworks.com")
         .set("Cookie", "token=valid-token")
         .send({ password: "pass1234", newPassword: "pass4321" });
 
@@ -274,7 +274,7 @@ describe("users CRUD tests", () => {
       await userDbInstance.insertMany(mockUsers);
 
       const response = await request(app)
-        .patch("/users/password/5dc26ecc4c33e04dc232c845")
+        .patch("/users/password/mabel@thoughtworks.com")
         .set("Cookie", "token=valid-token")
         .send({ password: "oldPassword", newPassword: "newPassword1234" });
 
@@ -286,7 +286,7 @@ describe("users CRUD tests", () => {
       await userDbInstance.insertMany(mockUsers);
 
       const response = await request(app)
-        .patch("/users/password/5dc26ecc4c33e04dc232c845")
+        .patch("/users/password/mabel@thoughtworks.com")
         .send({ password: "pass1234", newPassword: "pass4321" });
 
       expect(response.status).toEqual(401);

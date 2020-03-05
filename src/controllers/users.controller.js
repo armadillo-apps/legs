@@ -84,7 +84,7 @@ const editUserRole = async (req, res, next) => {
 };
 
 const editUserPassword = async (req, res, next) => {
-  const userId = req.params.userid;
+  const userEmail = req.params.userEmail;
 
   const password = req.body.password;
   const newPassword = req.body.newPassword;
@@ -92,7 +92,7 @@ const editUserPassword = async (req, res, next) => {
   const rounds = 10;
   const hashedNewPassword = await bcrypt.hash(newPassword, rounds);
   try {
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findOne({ email: userEmail });
 
     const passwordCheck = await bcrypt.compare(password, user.password);
     if (!passwordCheck) {
@@ -100,7 +100,7 @@ const editUserPassword = async (req, res, next) => {
     }
 
     const updatePassword = await UserModel.updateOne(
-      { _id: userId },
+      { email: userEmail },
       { password: hashedNewPassword },
       { safe: true, multi: true, new: true }
     );

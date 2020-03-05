@@ -11,6 +11,6 @@ router.post("/logout", Ctrl.logoutUser);
 router.post("/new", auth.authorise, Ctrl.addUser);
 router.delete("/:userid", auth.authorise, Ctrl.deleteUser);
 router.patch("/:userid", auth.authorise, Ctrl.editUserRole);
-router.patch("/password/:userid", auth.authenticate, Ctrl.editUserPassword);
+router.patch("/password/:userEmail", auth.authenticate, Ctrl.editUserPassword);
 
 module.exports = router;
