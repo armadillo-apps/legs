@@ -30,7 +30,11 @@ const loginUser = async (req, res, next) => {
       throw new Error("Login was unsuccessful");
     }
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
-    res.cookie("token", token, { sameSite: "Strict" });
+
+    res.cookie("token", token, {
+      sameSite: "Strict",
+      secure: process.env.NODE_ENV !== "development"
+    });
     res.status(200).json({ email: user.email, role: user.role });
   } catch (err) {
     err.statusCode = 400;
