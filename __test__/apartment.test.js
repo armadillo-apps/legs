@@ -54,6 +54,19 @@ describe("apartment CRUD tests", () => {
       expect(jwt.verify).toHaveBeenCalledTimes(1);
     });
 
+    it("should return error when apartment cannot be found", async () => {
+      const apartmentDbInstance = db.collection("apartments");
+      await apartmentDbInstance.insertMany(mockApartments);
+
+      const response = await request(app)
+        .get("/apartments/notValid")
+        .set("Cookie", "token=valid-token");
+
+      expect(response.status).toEqual(404);
+      expect(response.text).toBe("Unable to find apartment");
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
+    });
+
     it("should add a new apartment", async () => {
       const newApartment = mockApartments[0];
       const response = await request(app)
@@ -92,7 +105,7 @@ describe("apartment CRUD tests", () => {
         .send(newApartment)
         .set("Cookie", "token=valid-token");
       expect(response.status).toEqual(500);
-      expect(response.text).toEqual(
+      expect(response.text).toBe(
         "Apartment validation failed: bedrooms: Bedrooms cannot be less than 0"
       );
       expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -127,6 +140,20 @@ describe("apartment CRUD tests", () => {
 
       expect(response.status).toBe(201);
       expect(updatedApartment).toMatchObject(requestBody);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
+    });
+
+    it("PUT / should throw error when updating apartment fails", async () => {
+      const response = await request(app)
+        .put("/apartments/notValid")
+        .send({})
+        .set("Content-Type", "application/json")
+        .set("Cookie", "token=valid-token");
+
+      await db.collection("apartments").findOne({ name: "Avengers HQ" });
+
+      expect(response.status).toBe(400);
+      expect(response.text).toBe("Unable to update apartment");
       expect(jwt.verify).toHaveBeenCalledTimes(1);
     });
   });

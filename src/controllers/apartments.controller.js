@@ -9,13 +9,14 @@ const getApartments = async (req, res, next) => {
   }
 };
 
-const getApartmentById = async (req, res, next) => {
+const getApartmentById = async (req, res) => {
   try {
     const { apartmentId } = req.params;
     const apartmentFound = await ApartmentModel.findById(apartmentId);
     res.status(200).json(apartmentFound);
   } catch (err) {
-    next(err);
+    const error = new Error("Unable to find apartment");
+    await res.status(404).send(error.message);
   }
 };
 
@@ -67,7 +68,7 @@ const updateApartment = async (req, res, next) => {
       .send(`Successfully updated apartment: ${updatedApartment.name}`);
   } catch (err) {
     const error = new Error("Unable to update apartment");
-    await res.status(400).json(error.message);
+    await res.status(400).send(error.message);
     next();
   }
 };
