@@ -1,6 +1,9 @@
 const app = require("../src/app");
 const request = require("supertest");
-const { mockApartments } = require("./mockData/mockData");
+const {
+  mockApartments,
+  mockApartmentInString
+} = require("./mockData/mockData");
 const jwt = require("jsonwebtoken");
 
 jest.mock("jsonwebtoken");
@@ -35,6 +38,19 @@ describe("apartment CRUD tests", () => {
       expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
       expect(response.body.length).toEqual(2);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
+    });
+
+    it("should return an apartment when given an id", async () => {
+      const apartmentDbInstance = db.collection("apartments");
+      await apartmentDbInstance.insertMany(mockApartments);
+
+      const response = await request(app)
+        .get("/apartments/5d303529e51a310017aa063c")
+        .set("Cookie", "token=valid-token");
+
+      expect(response.status).toEqual(200);
+      expect(response.body).toMatchObject(mockApartmentInString);
       expect(jwt.verify).toHaveBeenCalledTimes(1);
     });
 

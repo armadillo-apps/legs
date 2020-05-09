@@ -9,6 +9,16 @@ const getApartments = async (req, res, next) => {
   }
 };
 
+const getApartmentById = async (req, res, next) => {
+  try {
+    const { apartmentId } = req.params;
+    const apartmentFound = await ApartmentModel.findById(apartmentId);
+    res.status(200).json(apartmentFound);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const addApartment = async (req, res, next) => {
   try {
     const newApartment = await new ApartmentModel(req.body);
@@ -62,4 +72,9 @@ const updateApartment = async (req, res, next) => {
   }
 };
 
-module.exports = { getApartments, addApartment, updateApartment };
+module.exports = {
+  getApartments,
+  addApartment,
+  updateApartment,
+  getApartmentById
+};

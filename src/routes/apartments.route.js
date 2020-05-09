@@ -4,6 +4,7 @@ const Ctrl = require("../controllers/apartments.controller");
 const auth = require("../controllers/auth.controller");
 
 router.get("/", auth.authenticate, Ctrl.getApartments);
+router.get("/:apartmentId", auth.authenticate, Ctrl.getApartmentById);
 router.post("/", auth.authenticate, Ctrl.addApartment);
 router.put("/:apartmentId", auth.authenticate, Ctrl.updateApartment);
 

@@ -45,6 +45,28 @@ module.exports.mockApartments = [
   }
 ];
 
+module.exports.mockApartmentInString = {
+  _id: "5d303529e51a310017aa063c",
+  name: "China Square Central 01-01",
+  address: "18 Cross Street #01-01",
+  bedrooms: 1,
+  capacity: 1,
+  leases: [
+    {
+      leaseStart: "2018-01-01T00:00:00.000Z",
+      leaseEnd: "2019-01-01T00:00:00.000Z",
+      monthlyRent: 5000,
+      currency: "sgd"
+    }
+  ],
+  landlord: {
+    name: "Jesstern",
+    accountNumber: "123ACF802"
+  },
+  country: "Singapore",
+  remarks: "ThoughtWorks office"
+};
+
 module.exports.mockStays = [
   {
     _id: mongoose.Types.ObjectId("5d2ef34121ead80017be45df"),
