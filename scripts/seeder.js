@@ -36,7 +36,7 @@ const apartmentSeedData = {
   model: "Apartment",
   documents: [
     {
-      status: "Inactive",
+      status: "inactive",
       name: "The Beacon",
       address: "Fake street 11",
       bedrooms: 10,
@@ -57,7 +57,7 @@ const apartmentSeedData = {
       remarks: "Awesome"
     },
     {
-      status: "Active",
+      status: "active",
       name: "Connelly and Sons",
       address: "431 Scarlett Pine",
       bedrooms: 1,
@@ -78,7 +78,7 @@ const apartmentSeedData = {
       remarks: "testing!!!"
     },
     {
-      status: "Active",
+      status: "active",
       name: "Parc Sophia",
       address: "123 Parc Lane",
       bedrooms: 1,
