@@ -1,8 +1,5 @@
 # LEGS(ARMS back-end)
 
-![CircleCI](https://img.shields.io/circleci/build/github/armadillo-apps/legs.svg)
-
-
 ## Setup
 
 ### Install dependencies
