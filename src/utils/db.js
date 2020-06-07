@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dbURI =
   process.env.MONGODB_URI ||
   global.__MONGO_URI__ ||
-  "mongodb://localhost:27017/testDb";
+  "mongodb://localhost:27017/legsDb";
 console.log(dbURI);
 
 mongoose.connect(dbURI, {
