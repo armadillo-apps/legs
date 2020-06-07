@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run start:db && node ./src/server.js",
+    "start": "node ./src/server.js",
     "start:dev": "npm run start:db && nodemon ./src/server.js",
     "start:drop": "cross-env NODE_ENV=development node ./src/server.js",
     "start:db": "docker-compose -f docker-compose.db.yml up -d",
