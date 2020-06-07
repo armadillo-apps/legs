@@ -10,31 +10,23 @@
 npm install
 ```
 
-### Install Mongodb Community Edition
-
-- Go to https://docs.mongodb.com/manual/administration/install-community/
-
-### Seed local database
-```
-node ./scripts/seedLocalDb.js
-```
-
 ### Setup secrets
 - Create .env file with command below and replace dummy values with secrets in KeePassX vault
 ```
 cp .env.sample .env
 ```
 
-## Getting started
+### Initialise Database (only run once on initial setup)
+```
+npm run init:db
+```
 
 ### Start server
-
 ```
 npm start
 ```
 
 ### Start server in development mode
-
 ```
 npm run start:dev
 ```
