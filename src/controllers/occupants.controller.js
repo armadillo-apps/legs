@@ -11,6 +11,18 @@ const getOccupant = async (req, res, next) => {
   }
 };
 
+const getOccupantById = async (req, res, next) => {
+  try {
+    const { occupantId } = req.params;
+    const foundOccupant = await OccupantModel.findById(occupantId);
+    res.status(200).send(foundOccupant);
+  } catch (err) {
+    const error = new Error("Unable to get occupant data");
+    await res.status(400).json(error.message);
+    next();
+  }
+};
+
 const createOccupant = async (req, res, next) => {
   try {
     const createdOccupant = await new OccupantModel(req.body);
@@ -54,4 +66,9 @@ const updateOccupant = async (req, res, next) => {
   }
 };
 
-module.exports = { createOccupant, getOccupant, updateOccupant };
+module.exports = {
+  createOccupant,
+  getOccupant,
+  updateOccupant,
+  getOccupantById
+};

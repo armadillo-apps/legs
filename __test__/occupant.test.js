@@ -5,6 +5,7 @@ const {
   mockOccupantWithoutName
 } = require("./mockData/mockData");
 const jwt = require("jsonwebtoken");
+const { mockOccupantInString } = require("./mockData/mockData");
 
 jest.mock("jsonwebtoken");
 
@@ -44,6 +45,19 @@ describe("occupant", () => {
 
       expect(response.status).toEqual(401);
       expect(jwt.verify).toHaveBeenCalledTimes(0);
+    });
+
+    it("should return an occupant when given an id", async () => {
+      const mockDb = db.collection("occupants");
+      await mockDb.insertMany(mockOccupants);
+
+      const response = await request(app)
+        .get("/occupants/5d2ef34111ead80017be83df")
+        .set("Cookie", "token=valid-token");
+
+      expect(response.status).toEqual(200);
+      expect(response.body).toMatchObject(mockOccupantInString);
+      expect(jwt.verify).toHaveBeenCalledTimes(1);
     });
 
     it("POST should create a new occupant", async () => {

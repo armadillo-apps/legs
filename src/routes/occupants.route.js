@@ -4,6 +4,7 @@ const Ctrl = require("../controllers/occupants.controller");
 const auth = require("../controllers/auth.controller");
 
 router.get("/", auth.authenticate, Ctrl.getOccupant);
+router.get("/:occupantId", auth.authenticate, Ctrl.getOccupantById);
 router.post("/", auth.authenticate, Ctrl.createOccupant);
 router.put("/:occupantId", auth.authenticate, Ctrl.updateOccupant);
 

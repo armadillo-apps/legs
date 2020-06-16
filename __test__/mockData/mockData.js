@@ -140,6 +140,16 @@ module.exports.mockOccupants = [
   }
 ];
 
+module.exports.mockOccupantInString = {
+  _id: "5d2ef34111ead80017be83df",
+  name: "Tom",
+  employeeId: "1234567a",
+  gender: "male",
+  remarks: "might extend stay",
+  homeOffice: "Bangkok, Thailand",
+  status: "unallocated"
+};
+
 const hashPassword = password => {
   const rounds = 10;
   const hashedPassword = bcrypt.hashSync(password, rounds);
