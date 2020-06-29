@@ -2,7 +2,7 @@ const ApartmentModel = require("../models/Apartment.model");
 
 const getApartments = async (req, res, next) => {
   try {
-    const allApartments = await ApartmentModel.find();
+    const allApartments = await ApartmentModel.find().populate("stays");
     res.status(200).json(allApartments);
   } catch (err) {
     next(err);

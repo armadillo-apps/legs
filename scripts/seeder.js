@@ -6,11 +6,12 @@ const seedData = DB_URL => {
       seeder.loadModels([
         "./src/models/User.model.js",
         "./src/models/Apartment.model.js",
-        "./src/models/Occupant.model.js"
+        "./src/models/Occupant.model.js",
+        "./src/models/Stay.model.js"
       ]);
-      seeder.clearModels(["User", "Apartment", "Occupant"], () => {
+      seeder.clearModels(["User", "Apartment", "Occupant", "Stay"], () => {
         seeder.populateModels(
-          [userSeedData, apartmentSeedData, occupantSeedData],
+          [userSeedData, apartmentSeedData, occupantSeedData, staysSeedData],
           () => {
             seeder.disconnect();
             resolve();
@@ -57,6 +58,7 @@ const apartmentSeedData = {
       remarks: "Awesome"
     },
     {
+      _id: "5d303529e51a310017aa1234",
       status: "active",
       name: "Connelly and Sons",
       address: "431 Scarlett Pine",
@@ -75,9 +77,11 @@ const apartmentSeedData = {
         accountNumber: "01598651"
       },
       country: "Thailand",
-      remarks: "testing!!!"
+      remarks: "testing!!!",
+      stays: ["5d2ef34121ead80067be46df"]
     },
     {
+      _id: "5d303529e51a310017aa063c",
       status: "active",
       name: "Parc Sophia",
       address: "123 Parc Lane",
@@ -96,7 +100,8 @@ const apartmentSeedData = {
         accountNumber: "01598651"
       },
       country: "Singapore",
-      remarks: "testing!!!"
+      remarks: "testing!!!",
+      stays: ["5d2ef34121ead80017be45df"]
     }
   ]
 };
@@ -127,6 +132,30 @@ const occupantSeedData = {
       gender: "",
       remarks: "",
       homeOffice: ""
+    }
+  ]
+};
+
+const staysSeedData = {
+  model: "Stay",
+  documents: [
+    {
+      _id: "5d2ef34121ead80017be45df",
+      apartmentId: "5d303529e51a310017aa063c",
+      occupantId: "5d2ef34111ead80017be83df",
+      checkInDate: "2020-05-01T00:00:00.000Z",
+      checkOutDate: "2020-06-01T00:00:00.000Z",
+      leaseId: "5d401557d855f9677f345692",
+      apartment: "5d303529e51a310017aa063c"
+    },
+    {
+      _id: "5d2ef34121ead80067be46df",
+      apartmentId: "5d303529e51a310017aa063c",
+      occupantId: "5d2ef34111ead80017be83df",
+      checkInDate: "2020-05-01T00:00:00.000Z",
+      checkOutDate: "2020-07-01T00:00:00.000Z",
+      leaseId: "e83724nht8",
+      apartment: "5d303529e51a310017aa1234"
     }
   ]
 };

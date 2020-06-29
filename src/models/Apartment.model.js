@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("./Stay.model");
 
 const apartmentSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -27,7 +28,8 @@ const apartmentSchema = new mongoose.Schema({
     accountNumber: { type: String, required: true }
   },
   country: { type: String },
-  remarks: { type: String }
+  remarks: { type: String },
+  stays: [{ type: mongoose.Schema.Types.ObjectId, ref: "Stay" }]
 });
 
 const ApartmentModel = mongoose.model("Apartment", apartmentSchema);
