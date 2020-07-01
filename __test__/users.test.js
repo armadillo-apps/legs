@@ -125,6 +125,25 @@ describe("users CRUD tests", () => {
       expect(response.status).toEqual(401);
     });
 
+    it("should return status 400 when unable to create a new user ", async () => {
+      jest.mock("../src/controllers/auth.controller");
+      jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });
+      auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
+
+      const userDbInstance = db.collection("users");
+      await userDbInstance.insertMany(mockUsers);
+
+      const response = await request(app)
+        .post("/users/new")
+        .send({
+          email: "jesstern@mthoughtworks.com",
+          password: "",
+          role: ""
+        });
+
+      expect(response.status).toEqual(400);
+    });
+
     it("should allow admins to add a new user to the system", async () => {
       jest.mock("../src/controllers/auth.controller");
       jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });

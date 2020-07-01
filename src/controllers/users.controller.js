@@ -46,7 +46,7 @@ const logoutUser = async (req, res) => {
   res.clearCookie("token").send("You are logged out");
 };
 
-const addUser = async (req, res, next) => {
+const addUser = async (req, res) => {
   const { email } = req.body;
   const foundUser = await UserModel.findOne({ email });
 
@@ -66,10 +66,10 @@ const addUser = async (req, res, next) => {
       message: `User ${req.body.email} created successfully`
     });
   } catch (err) {
-    if (err.name === "MongoError" && err.code === 11000) {
-      err.statusCode = 400;
-    }
-    next(err);
+    res.status(400).json({
+      success: false,
+      message: "Something went wrong. Please try again."
+    });
   }
 };
 
