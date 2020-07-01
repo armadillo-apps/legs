@@ -47,11 +47,24 @@ const logoutUser = async (req, res) => {
 };
 
 const addUser = async (req, res, next) => {
+  const { email } = req.body;
+  const foundUser = await UserModel.findOne({ email });
+
+  if (foundUser) {
+    return res
+      .status(202)
+      .json({ success: false, message: "Email already exists" });
+  }
+
   try {
-    const user = new UserModel(req.body);
+    const newUser = new UserModel(req.body);
     await UserModel.init();
-    const newUser = await user.save();
-    res.send(newUser);
+    await newUser.save();
+
+    res.status(201).json({
+      success: true,
+      message: `User ${req.body.email} created successfully`
+    });
   } catch (err) {
     if (err.name === "MongoError" && err.code === 11000) {
       err.statusCode = 400;

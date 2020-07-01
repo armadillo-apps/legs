@@ -141,7 +141,7 @@ describe("users CRUD tests", () => {
           role: "admin"
         });
 
-      expect(response.status).toEqual(200);
+      expect(response.status).toEqual(201);
     });
 
     it("should not allow a user to sign up with an existing email", async () => {
@@ -160,7 +160,11 @@ describe("users CRUD tests", () => {
           role: "manager"
         });
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(202);
+      expect(response.body).toEqual({
+        success: false,
+        message: "Email already exists"
+      });
     });
   });
 
