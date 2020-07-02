@@ -296,6 +296,7 @@ describe("users CRUD tests", () => {
       expect(response.status).toEqual(400);
     });
   });
+
   describe("[PATCH] users/password/:userid", () => {
     it("should allow any user to change their own password", async () => {
       const userDbInstance = db.collection("users");
@@ -307,7 +308,10 @@ describe("users CRUD tests", () => {
         .send({ password: "pass1234", newPassword: "pass4321" });
 
       expect(response.status).toEqual(200);
-      expect(response.body.nModified).toEqual(1);
+      expect(response.body).toEqual({
+        success: true,
+        message: "Password updated successfully"
+      });
     });
 
     it("should not allow any user to change their own password if existing password is incorrect", async () => {
@@ -319,7 +323,11 @@ describe("users CRUD tests", () => {
         .set("Cookie", "token=valid-token")
         .send({ password: "oldPassword", newPassword: "newPassword1234" });
 
-      expect(response.status).toEqual(404);
+      expect(response.status).toEqual(202);
+      expect(response.body).toEqual({
+        success: false,
+        message: "Incorrect existing password"
+      });
     });
 
     it("should not allow a user who is not logged in to change their own password", async () => {

@@ -118,7 +118,7 @@ const editUserRole = async (req, res) => {
   }
 };
 
-const editUserPassword = async (req, res, next) => {
+const editUserPassword = async (req, res) => {
   const userEmail = req.params.userEmail;
 
   const password = req.body.password;
@@ -131,18 +131,26 @@ const editUserPassword = async (req, res, next) => {
 
     const passwordCheck = await bcrypt.compare(password, user.password);
     if (!passwordCheck) {
-      throw new Error("Incorrect existing password");
+      return res
+        .status(202)
+        .json({ success: false, message: "Incorrect existing password" });
     }
 
-    const updatePassword = await UserModel.updateOne(
+    await UserModel.updateOne(
       { email: userEmail },
       { password: hashedNewPassword },
       { safe: true, multi: true, new: true }
     );
-    res.send(updatePassword);
+
+    res.status(200).json({
+      success: true,
+      message: "Password updated successfully"
+    });
   } catch (error) {
-    res.status(404).send({ error: error.toString() });
-    next(error);
+    res.status(404).json({
+      success: false,
+      message: "Something went wrong. Please try again."
+    });
   }
 };
 
