@@ -73,13 +73,22 @@ const addUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteUser = async (req, res) => {
   try {
-    await UserModel.findOneAndDelete({ _id: req.params.userid });
+    const { userid } = req.params;
+    const userDeleted = await UserModel.findOneAndDelete({ _id: userid });
+
     const allUsers = await UserModel.find();
-    res.send(allUsers);
+    res.status(200).json({
+      success: true,
+      message: `User ${userDeleted.email} deleted successfully`,
+      data: allUsers
+    });
   } catch (err) {
-    next(err);
+    res.status(400).json({
+      success: false,
+      message: "Something went wrong. Please try again."
+    });
   }
 };
 

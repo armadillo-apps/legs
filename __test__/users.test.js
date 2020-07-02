@@ -199,6 +199,24 @@ describe("users CRUD tests", () => {
   });
 
   describe("[DEL] users/:userid", () => {
+    it("should not delete a user when an error occurs", async () => {
+      const userDbInstance = db.collection("users");
+      await userDbInstance.insertMany(mockUsers);
+      jest.mock("../src/controllers/auth.controller");
+      jwt.verify.mockReturnValueOnce({ email: "elson@thoughtworks.com" });
+      auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
+
+      const response = await request(app)
+        .delete("/users/123")
+        .set("Cookie", "token=valid-token");
+
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual({
+        success: false,
+        message: "Something went wrong. Please try again."
+      });
+    });
+
     it("should allow a logged in admin to delete a user by its id", async () => {
       const userDbInstance = db.collection("users");
       await userDbInstance.insertMany(mockUsers);
