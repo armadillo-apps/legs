@@ -278,7 +278,7 @@ describe("users CRUD tests", () => {
         .send({ role: "admin" });
 
       expect(response.status).toEqual(200);
-      expect(response.body[1].role).toEqual("admin");
+      expect(response.body.data[1].role).toEqual("admin");
     });
 
     it("should not allow a logged in admin to edit a user's role when the id is invalid", async () => {
@@ -289,11 +289,11 @@ describe("users CRUD tests", () => {
       auth.userRole = jest.fn().mockReturnValueOnce(Promise.resolve("admin"));
 
       const response = await request(app)
-        .patch("/users/5dc26ecc4c33e04dc232c84522")
+        .patch("/users/123")
         .set("Cookie", "token=valid-token")
         .send({ role: "admin" });
 
-      expect(response.status).toEqual(500);
+      expect(response.status).toEqual(400);
     });
   });
   describe("[PATCH] users/password/:userid", () => {
