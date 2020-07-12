@@ -36,7 +36,6 @@ npm test
 
 ### Enable githooks
 ```
-git config --local core.hooksPath ./githooks/
 chmod 700 ./githooks/pre-push.sh
 chmod 700 ./githooks/post-merge.sh
 ```

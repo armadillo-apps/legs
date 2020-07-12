@@ -63,7 +63,6 @@
   "husky": {
     "hooks": {
       "post-merge": "bash ./githooks/post-merge.sh",
-      "pre-commit": "npm run lint",
       "pre-push": "bash ./githooks/pre-push.sh"
     }
   }

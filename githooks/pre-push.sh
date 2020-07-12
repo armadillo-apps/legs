@@ -18,6 +18,12 @@ function popUncommittedChanges() {
 
 stashUncommittedChanges
 
+if ! npm run lint; then
+  echo "Linting failed"
+  popUncommittedChanges
+  exit 1
+fi
+
 if ! npm run test:coverage; then
   echo "Unit test failed"
   popUncommittedChanges
