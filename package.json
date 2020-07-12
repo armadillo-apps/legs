@@ -46,6 +46,7 @@
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-jest": "^23.0.2",
     "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^4.2.5",
     "jest": "^24.9.0",
     "mongoose-seed": "^0.6.0",
     "nodemon": "^1.19.1",
@@ -58,5 +59,12 @@
     "useTabs": false,
     "singleQuote": false,
     "semi": true
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "bash ./githooks/post-merge-hook.sh",
+      "pre-commit": "npm run lint",
+      "pre-push": "bash ./githooks/pre-push-hook.sh"
+    }
   }
 }

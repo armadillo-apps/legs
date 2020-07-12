@@ -34,6 +34,13 @@ npm run start:dev
 npm test
 ```
 
+### Enable githooks
+```
+git config --local core.hooksPath .githooks/
+chmod 700 .githooks/pre-push
+chmod 700 .githooks/post-merge
+```
+
 ### Build the app
 
 ```
