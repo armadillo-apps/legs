@@ -12,7 +12,9 @@ const getApartments = async (req, res, next) => {
 const getApartmentById = async (req, res) => {
   try {
     const { apartmentId } = req.params;
-    const apartmentFound = await ApartmentModel.findById(apartmentId);
+    const apartmentFound = await ApartmentModel.findById(apartmentId).populate(
+      "stays"
+    );
     res.status(200).json(apartmentFound);
   } catch (err) {
     const error = new Error("Unable to find apartment");

@@ -110,6 +110,7 @@ const occupantSeedData = {
   model: "Occupant",
   documents: [
     {
+      _id: "5d2ef34111ead80017be83df",
       status: "allocated",
       name: "Catharine",
       employeeId: "773ff825-54b3-42e6-a260-4ab5bb8538d6",
@@ -118,6 +119,7 @@ const occupantSeedData = {
       homeOffice: "Australia, Melbourne"
     },
     {
+      _id: "5d2ef34111ead80017be84df",
       status: "unallocated",
       name: "Brant",
       employeeId: "10e1f6db-1698-40f9-a85d-80878b41d07d",
@@ -126,6 +128,7 @@ const occupantSeedData = {
       homeOffice: "Singapore, Singapore"
     },
     {
+      _id: "5d2ef34111ead80017be85df",
       status: "inactive",
       name: "Bob",
       employeeId: "",
@@ -150,7 +153,7 @@ const staysSeedData = {
     },
     {
       _id: "5d2ef34121ead80067be46df",
-      apartmentId: "5d303529e51a310017aa063c",
+      apartmentId: "5d303529e51a310017aa1234",
       occupantId: "5d2ef34111ead80017be83df",
       checkInDate: "2020-05-01T00:00:00.000Z",
       checkOutDate: "2020-07-01T00:00:00.000Z",
