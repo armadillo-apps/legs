@@ -7,7 +7,7 @@
     "start": "node ./src/server.js",
     "start:dev": "npm run start:db && nodemon ./src/server.js",
     "start:db": "docker-compose -f docker-compose.db.yml up -d",
-    "init:db": "npm run start:db && node ./scripts/seedLocalDb.js && docker-compose -f docker-compose.db.yml down",
+    "init:db": "node ./scripts/seedLocalDb.js",
     "test": "jest --runInBand __test__",
     "test:watch": "jest --runInBand --watch __test__",
     "test:coverage": "jest --runInBand --coverage __test__",

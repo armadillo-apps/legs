@@ -13,7 +13,12 @@ npm install
 cp .env.sample .env
 ```
 
-### Initialise Database (run on initial setup or to reset db)
+### Start server and database in development mode
+```
+npm run start:dev
+```
+
+### Initialise Database (run after start:dev to initialise db with seed data)
 ```
 npm run init:db
 ```
@@ -23,18 +28,12 @@ npm run init:db
 npm run start:db
 ```
 
-### Start server (without database)
+### Start server without database (used for ci)
 ```
 npm start
 ```
 
-### Start server and database in development mode
-```
-npm run start:dev
-```
-
 ### Run the tests
-
 ```
 npm test
 ```
