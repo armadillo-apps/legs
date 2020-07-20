@@ -1,4 +1,5 @@
 const seeder = require("mongoose-seed");
+require("dotenv").config();
 
 const seedData = DB_URL => {
   return new Promise(resolve => {
@@ -26,9 +27,22 @@ const userSeedData = {
   model: "User",
   documents: [
     {
-      email: "baqa@thoughtworks.com",
-      password: "testPassword1",
+      name: "admin",
+      email: process.env.TEST_ADMIN_USER_EMAIL,
+      password: process.env.TEST_ADMIN_USER_PASSWORD,
       role: "admin"
+    },
+    {
+      name: "manager",
+      email: process.env.TEST_MANAGER_USER_EMAIL,
+      password: process.env.TEST_MANAGER_USER_PASSWORD,
+      role: "manager"
+    },
+    {
+      name: "guest",
+      email: process.env.TEST_GUEST_USER_EMAIL,
+      password: process.env.TEST_GUEST_USER_PASSWORD,
+      role: "guest"
     }
   ]
 };
