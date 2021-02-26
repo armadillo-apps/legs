@@ -10,6 +10,7 @@ jest.mock("jsonwebtoken");
 
 describe("apartment CRUD tests", () => {
   let db;
+  const token = "someAccessToken";
 
   beforeEach(() => {
     db = global.db;
@@ -33,7 +34,7 @@ describe("apartment CRUD tests", () => {
 
       const response = await request(app)
         .get("/apartments")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(200);
       expect(Array.isArray(response.body)).toEqual(true);
@@ -47,7 +48,7 @@ describe("apartment CRUD tests", () => {
 
       const response = await request(app)
         .get("/apartments/5d303529e51a310017aa063c")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject(mockApartmentInString);
@@ -60,7 +61,7 @@ describe("apartment CRUD tests", () => {
 
       const response = await request(app)
         .get("/apartments/notValid")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(404);
       expect(response.text).toBe("Unable to find apartment");
@@ -72,7 +73,7 @@ describe("apartment CRUD tests", () => {
       const response = await request(app)
         .post("/apartments")
         .send(newApartment)
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(201);
       expect(response.text).toEqual(
@@ -103,7 +104,7 @@ describe("apartment CRUD tests", () => {
       const response = await request(app)
         .post("/apartments")
         .send(newApartment)
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
       expect(response.status).toEqual(500);
       expect(response.text).toBe(
         "Apartment validation failed: bedrooms: Bedrooms cannot be less than 0"
@@ -132,7 +133,7 @@ describe("apartment CRUD tests", () => {
         .put("/apartments/5d303529e51a310017aa063c")
         .send(requestBody)
         .set("Content-Type", "application/json")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       const updatedApartment = await db
         .collection("apartments")
@@ -148,7 +149,7 @@ describe("apartment CRUD tests", () => {
         .put("/apartments/notValid")
         .send({})
         .set("Content-Type", "application/json")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       await db.collection("apartments").findOne({ name: "Avengers HQ" });
 

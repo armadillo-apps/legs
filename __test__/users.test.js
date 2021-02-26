@@ -9,6 +9,7 @@ jest.mock("jsonwebtoken");
 
 describe("users CRUD tests", () => {
   let db;
+  const token = "someAccessToken";
 
   beforeEach(() => {
     db = global.db;
@@ -24,7 +25,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .get("/users/authenticate")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(jwt.verify).toHaveBeenCalledTimes(1);
       expect(response.status).toEqual(200);
@@ -44,7 +45,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .get("/users/authenticate")
-        .set("Cookie", "token=invalid-token");
+        .set("Authorization", token);
 
       expect(jwt.verify).toHaveBeenCalledTimes(1);
       expect(response.status).toEqual(401);
@@ -62,7 +63,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .get("/users")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(jwt.verify).toHaveBeenCalledTimes(1);
       expect(response.status).toEqual(200);
@@ -85,6 +86,8 @@ describe("users CRUD tests", () => {
     it("should allow a valid user to log in", async () => {
       const userDbInstance = db.collection("users");
       await userDbInstance.insertMany(mockUsers);
+      const mockJwt = "someAccessToken";
+      jwt.sign.mockReturnValueOnce(mockJwt);
 
       const response = await request(app)
         .post("/users/login")
@@ -92,8 +95,8 @@ describe("users CRUD tests", () => {
 
       expect(response.status).toEqual(200);
       expect(response.body).toEqual({
-        email: "elson@thoughtworks.com",
-        role: "admin"
+        accessToken: mockJwt,
+        user: { email: "elson@thoughtworks.com", role: "admin" }
       });
     });
 
@@ -208,7 +211,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .delete("/users/123")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(400);
       expect(response.body).toEqual({
@@ -226,7 +229,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .delete("/users/5dc26ecc4c33e04dc232c256")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(200);
       expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -259,7 +262,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .patch("/users/5dc26ecc4c33e04dc232c845")
-        .set("Cookie", "token=valid-token")
+        .set("Authorization", token)
         .send({ role: "admin" });
 
       expect(response.status).toEqual(401);
@@ -274,7 +277,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .patch("/users/5dc26ecc4c33e04dc232c845")
-        .set("Cookie", "token=valid-token")
+        .set("Authorization", token)
         .send({ role: "admin" });
 
       expect(response.status).toEqual(200);
@@ -290,7 +293,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .patch("/users/123")
-        .set("Cookie", "token=valid-token")
+        .set("Authorization", token)
         .send({ role: "admin" });
 
       expect(response.status).toEqual(400);
@@ -304,7 +307,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .patch("/users/password/mabel@thoughtworks.com")
-        .set("Cookie", "token=valid-token")
+        .set("Authorization", token)
         .send({ password: "pass1234", newPassword: "pass4321" });
 
       expect(response.status).toEqual(200);
@@ -320,7 +323,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .patch("/users/password/mabel@thoughtworks.com")
-        .set("Cookie", "token=valid-token")
+        .set("Authorization", token)
         .send({ password: "oldPassword", newPassword: "newPassword1234" });
 
       expect(response.status).toEqual(202);
@@ -347,7 +350,7 @@ describe("users CRUD tests", () => {
 
       const response = await request(app)
         .patch("/users/password/5dc26ecc4c33e04dc232c")
-        .set("Cookie", "token=valid-token")
+        .set("Authorization", token)
         .send({ password: "pass1234", newPassword: "pass4321" });
 
       expect(response.status).toEqual(404);

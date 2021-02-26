@@ -31,11 +31,10 @@ const loginUser = async (req, res, next) => {
     }
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY);
 
-    res.cookie("token", token, {
-      sameSite: "Lax",
-      secure: process.env.NODE_ENV !== "development"
+    res.status(200).json({
+      accessToken: token,
+      user: { email: user.email, role: user.role }
     });
-    res.status(200).json({ email: user.email, role: user.role });
   } catch (err) {
     err.statusCode = 400;
     next(err);

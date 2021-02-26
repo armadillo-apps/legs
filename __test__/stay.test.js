@@ -12,6 +12,7 @@ jest.mock("jsonwebtoken");
 
 describe("stay READ and CREATE tests", () => {
   let db;
+  const token = "someAccessToken";
 
   beforeEach(() => {
     db = global.db;
@@ -24,7 +25,7 @@ describe("stay READ and CREATE tests", () => {
 
     const response = await request(app)
       .get("/stays/apartments/5d303529e51a310017aa063c")
-      .set("Cookie", "token=valid-token");
+      .set("Authorization", token);
 
     expect(response.status).toBe(200);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -61,7 +62,7 @@ describe("stay READ and CREATE tests", () => {
         checkOutDate: new Date("2021-10-01"),
         leaseId: "e83724nht8"
       })
-      .set("Cookie", "token=valid-token");
+      .set("Authorization", token);
 
     expect(response.status).toBe(201);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -107,7 +108,7 @@ describe("stay READ and CREATE tests", () => {
         checkOutDate: new Date("2021-10-01"),
         leaseId: "e83724nht8"
       })
-      .set("Cookie", "token=valid-token");
+      .set("Authorization", token);
 
     expect(jwt.verify).toHaveBeenCalledTimes(1);
     expect(response.status).toBe(400);
@@ -130,7 +131,7 @@ describe("stay READ and CREATE tests", () => {
         checkOutDate: new Date("2021-10-01"),
         leaseId: "e83724nht8"
       })
-      .set("Cookie", "token=valid-token");
+      .set("Authorization", token);
 
     expect(jwt.verify).toHaveBeenCalledTimes(1);
     expect(response.status).toBe(400);
@@ -145,7 +146,7 @@ describe("stay READ and CREATE tests", () => {
 
     const response = await request(app)
       .get("/stays/apartmentProfileHistory/12345")
-      .set("Cookie", "token=valid-token");
+      .set("Authorization", token);
 
     expect(response.status).toBe(200);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -177,7 +178,7 @@ describe("stay READ and CREATE tests", () => {
 
     const response = await request(app)
       .get("/stays/apartmentProfileHistory/12345")
-      .set("Cookie", "token=valid-token");
+      .set("Authorization", token);
 
     expect(response.status).toBe(200);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -195,7 +196,7 @@ describe("stay READ and CREATE tests", () => {
 
     const response = await request(app)
       .delete("/stays/5d2ef34121ead80017be45df")
-      .set("Cookie", "token=valid-token");
+      .set("Authorization", token);
 
     expect(response.status).toBe(202);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -223,7 +224,7 @@ describe("stay READ and CREATE tests", () => {
 
     const response = await request(app)
       .delete("/stays/5d2ef34131ead80017be47df")
-      .set("Cookie", "token=valid-token");
+      .set("Authorization", token);
 
     expect(jwt.verify).toHaveBeenCalledTimes(1);
     expect(response.status).toBe(500);
@@ -304,7 +305,7 @@ describe("stay READ and CREATE tests", () => {
     it("[GET] should get all stays with populated apartment details", async () => {
       const res = await request(app)
         .get("/stays")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(res.status).toBe(200);
       expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -327,7 +328,7 @@ describe("stay READ and CREATE tests", () => {
       const occupantId = "5d2ef34111ead80017be83df";
       const res = await request(app)
         .get(`/stays?occupantId=${occupantId}`)
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(res.status).toBe(200);
       expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -351,7 +352,7 @@ describe("stay READ and CREATE tests", () => {
       const occupantId = "ABCef34111ead80017be83df";
       const res = await request(app)
         .get(`/stays?occupantId=${occupantId}`)
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(res.status).toBe(200);
       expect(jwt.verify).toHaveBeenCalledTimes(1);

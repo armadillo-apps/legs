@@ -11,6 +11,7 @@ jest.mock("jsonwebtoken");
 
 describe("occupant", () => {
   let db;
+  const token = "someAccessToken";
 
   beforeEach(() => {
     db = global.db;
@@ -23,7 +24,7 @@ describe("occupant", () => {
       await mockDb.insertMany(mockOccupants);
       const response = await request(app)
         .get("/occupants")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(200);
       expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -53,7 +54,7 @@ describe("occupant", () => {
 
       const response = await request(app)
         .get("/occupants/5d2ef34111ead80017be83df")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(200);
       expect(response.body).toMatchObject(mockOccupantInString);
@@ -64,7 +65,7 @@ describe("occupant", () => {
       const response = await request(app)
         .post("/occupants")
         .send(mockOccupants[1])
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       const mockDb = db.collection("occupants");
       const foundOccupant = await mockDb.findOne({ employeeId: "1234567b" });
@@ -79,7 +80,7 @@ describe("occupant", () => {
       const response = await request(app)
         .post("/occupants")
         .send(mockOccupantWithoutName[0])
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       expect(response.status).toEqual(400);
       expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -89,7 +90,7 @@ describe("occupant", () => {
       const response = await request(app)
         .post("/occupants")
         .send(mockOccupants[2])
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       const mockDb = db.collection("occupants");
       const foundOccupant = await mockDb.findOne({ name: "John" });
@@ -133,7 +134,7 @@ describe("occupant", () => {
         .put("/occupants/5d2ef34111ead80017be83df")
         .send(requestBody)
         .set("Content-Type", "application/json")
-        .set("Cookie", "token=valid-token");
+        .set("Authorization", token);
 
       const updatedOccupant = await db
         .collection("occupants")

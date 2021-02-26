@@ -8,10 +8,15 @@ const userRole = async email => {
 
 const authenticate = async (req, res, next) => {
   try {
-    if (!req.cookies.token) {
+    if (!req.header("Authorization")) {
       throw new Error("You are not authorized!");
     }
-    req.user = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
+
+    req.user = jwt.verify(
+      req.header("Authorization"),
+      process.env.JWT_SECRET_KEY
+    );
+
     if (req.user && Object.keys(req.user).length !== 0) {
       const email = req.user.email;
       const role = await userRole(email);
@@ -26,7 +31,12 @@ const authenticate = async (req, res, next) => {
 const authorise = async (req, res, next) => {
   try {
     const allowedRoles = "admin";
-    req.user = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
+
+    req.user = jwt.verify(
+      req.header("Authorization"),
+      process.env.JWT_SECRET_KEY
+    );
+
     const email = req.user.email;
     const role = await userRole(email);
     if (role !== allowedRoles) {
