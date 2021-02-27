@@ -42,7 +42,7 @@ const loginUser = async (req, res, next) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.clearCookie("token").send("You are logged out");
+  res.send("You are logged out");
 };
 
 const addUser = async (req, res) => {
